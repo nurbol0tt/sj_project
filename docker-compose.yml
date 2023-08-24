@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  sj_db:
+    container_name: sj_db
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+
+  sj_web:
+    container_name: sj_web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: bash -c "python /usr/src/sj_project/manage.py makemigrations &&
+        python /usr/src/sj_project/manage.py migrate --noinput &&
+        python /usr/src/sj_project/manage.py runserver 0.0.0.0:8000 "
+    volumes:
+      - .:/usr/src/sg_project
+    ports:
+      - "8000:8000"
+    depends_on:
+      - sj_db
+
+volumes:
+  postgres_data:
