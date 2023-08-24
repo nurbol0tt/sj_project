@@ -24,4 +24,4 @@ RUN pip install poetry && \
 
 
 # Copy the rest of the application code to the container
-COPY . /app/
+COPY . .
