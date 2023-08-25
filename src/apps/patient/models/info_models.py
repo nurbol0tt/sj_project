@@ -1,4 +1,5 @@
 from django.db import models
+from src.apps.patient.models.patient_models import Patient
 
 
 class AnamnesisLife(models.Model):
@@ -31,12 +32,32 @@ class AnamnesisLife(models.Model):
     previous_illnesses = models.CharField(max_length=125)
     medications = models.CharField(max_length=125)
     allergic_history = models.CharField(max_length=255)
-# 
-# 
+    patient = models.OneToOneField(
+        Patient,
+        on_delete=models.CASCADE,
+        related_name='anamnesis_life'
+    )
+
+
 # class AnamnesisDisease(models.Model):
-#     # receiving_something = models.CharField(max_length=255)
-#     # receiving_something_time = models.DateField(max_length=255)
-#     ...
+#     receiving_something = models.CharField(max_length=255)
+#     receiving_something_time = models.DateField(max_length=255)
+#     somatic_disorders = models.CharField(max_length=255)
+#     mental_disorders = models.CharField(max_length=255)
+#     daily_tolerance = models.CharField(max_length=25)
+#     binge_drinking = models.CharField(max_length=25)
+#     light_gaps = models.CharField(max_length=255)
+#     duration_last_binge = models.CharField(max_length=255)
+#     duration_last_remission = models.CharField(max_length=255)
+#     last_treatment = models.DateField()
+#     last_alcohol_intake = models.CharField(max_length=255)
+#     dose = models.CharField(max_length=25)
+#     addition = models.CharField(max_length=255)
+#     patient = models.ForeignKey(
+#         Patient,
+#         on_delete=models.CASCADE,
+#     )
+# 
 # 
 # class SomaticStatus(models.Model):
 #     ...

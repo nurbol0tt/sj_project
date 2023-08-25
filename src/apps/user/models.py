@@ -2,7 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
-from src.apps.patient.models import AnamnesisLife
 from src.apps.user.managers import UserManager
 
 
@@ -42,22 +41,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.name
 
-
-class Patient(models.Model):
-    fio = models.CharField(max_length=255)
-    date_of_birth = models.CharField(max_length=255)
-    other_conditions = models.CharField(
-        max_length=255,
-    )
-    escorts = models.CharField(max_length=125)
-    complaints = models.CharField(max_length=125)
-    date_of_admission = models.DateTimeField()
-    date_of_discharge = models.DateTimeField()
-    departament = models.IntegerField()
-    number_of_days = models.IntegerField()
-    blood_type = models.CharField(max_length=25)
-    anamnesis_life = models.OneToOneField(
-        AnamnesisLife,
-        on_delete=models.CASCADE,
-    )
 
