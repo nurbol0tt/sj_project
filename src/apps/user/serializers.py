@@ -12,10 +12,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
         Validate that the phone number starts with '+996' and is followed by 9 digits.
         """
-        if not value.startswith("+996"):
-            raise serializers.ValidationError("Phone number must start with '+996'.")
-        if len(value) != 13 or not value[1:].isdigit():
-            raise serializers.ValidationError("Phone number must have 9 digits after '+996'.")
+        if not value.startswith("0"):
+            raise serializers.ValidationError("Phone number must start with '0'.")
+        if len(value) != 10 or not value[1:].isdigit():
+            raise serializers.ValidationError("Phone number must have 10.")
         return value
     
     def create(self, validated_data):
