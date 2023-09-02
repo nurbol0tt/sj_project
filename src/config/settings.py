@@ -130,10 +130,11 @@ STATIC_URL = "/static/"
 STATIC_ROOT = (
     join(BASE_DIR.parent, 'static')
 )
+# os.path.join(BASE_DIR, '..', 'media')
 
 MEDIA_URL = '/media/'
 MEDIA_DIR = join('BASE_DIR', 'media')
-MEDIA_ROOT = MEDIA_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -224,3 +225,23 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
+
+REDIS_HOST = 'redis'
+REDIS_PORT = '6379'
+
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELER_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'update_patient_status': {
+        'task': 'src.apps.patient.tasks.update_patient_status',
+        # 'schedule': timedelta(days=1),  # Run the task daily
+        'schedule': timedelta(seconds=10),  # Run the task daily
+    },
+}
