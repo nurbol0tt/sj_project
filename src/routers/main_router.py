@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from .yasg_router import urlpatterns as yasg
-from src.apps.patient.views import PatientViewSet
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
