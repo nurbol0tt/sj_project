@@ -10,7 +10,7 @@ from src.apps.user.serializers import UserRegisterSerializer, UserSerializer
 
 
 class RegisterView(APIView):
-    permission_classes = (IsAdminUser,)
+    # permission_classes = (IsAdminUser,)
     serializer_class = UserRegisterSerializer
 
     @swagger_auto_schema(request_body=UserRegisterSerializer)
