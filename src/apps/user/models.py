@@ -8,9 +8,9 @@ from src.apps.user.managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     STATUS_CHOICES = (
         ('1', 'Admin'),
-        ('2', 'Doctor'),
-        ('3', 'Psychologist'),
-        ('4', 'Nurse'),
+        ('2', 'Доктор'),
+        ('3', 'Психолог'),
+        ('4', 'Мед-Сестра'),
     )
 
     name = models.CharField(max_length=150, blank=True,)
