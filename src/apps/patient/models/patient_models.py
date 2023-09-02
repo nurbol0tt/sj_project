@@ -1,4 +1,6 @@
+from django.utils import timezone
 from django.db import models
+from .info_models import AnamnesisDisease, SomaticStatus, NeurologicalStatus, MentalStatus
 
 
 class Patient(models.Model):
@@ -6,6 +8,8 @@ class Patient(models.Model):
     surname = models.CharField(max_length=150, blank=True,)
     patronymic = models.CharField(max_length=150, blank=True,)
     date_of_birth = models.DateField(max_length=255)
+    avatar = models.FileField(default='./default_png.jpg')
+    in_hospital = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
@@ -30,9 +34,9 @@ class PatientInfo(models.Model):
         choices=STATUS_CHOICES_ARRIVES
     )
     conditions = models.CharField(
-        max_length=125,
-        choices=STATUS_CHOICES_CONDITIONS
+        max_length=125
     )
+    price = models.IntegerField()
     escorts = models.CharField(max_length=125)
     complaints = models.CharField(max_length=125)
     date_of_admission = models.DateTimeField()
@@ -42,5 +46,21 @@ class PatientInfo(models.Model):
     blood_type = models.CharField(max_length=25)
     patient = models.ForeignKey(
         Patient,
+        on_delete=models.CASCADE
+    )
+    anamnesis = models.ForeignKey(
+        AnamnesisDisease,
+        on_delete=models.CASCADE
+    )
+    somatic = models.ForeignKey(
+        SomaticStatus,
+        on_delete=models.CASCADE
+    )
+    neurological = models.ForeignKey(
+        NeurologicalStatus,
+        on_delete=models.CASCADE
+    )
+    mental = models.ForeignKey(
+        MentalStatus,
         on_delete=models.CASCADE
     )
