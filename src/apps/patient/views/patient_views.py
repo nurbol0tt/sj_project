@@ -11,9 +11,24 @@ from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 
 from src.apps.patient.models.patient_models import Patient, PatientInfo
-from src.apps.patient.models.info_models import AnamnesisLife
-
-from ..serializers import PatientCreateSerializer, PatientListSerializer
+from src.apps.patient.models.info_models import (
+    AnamnesisLife,
+    Category,
+    TypeIntoxication,
+    TypeTolerance,
+    TypePalimpsests,
+    SomaticStatus,
+    NeurologicalStatus,
+    MentalStatus,
+)
+from ..serializers import (
+    PatientCreateSerializer,
+    PatientListSerializer,
+    CategoryListSerializer,
+    TypeIntoxicationSerializer,
+    TypeToleranceSerializer,
+    TypePalimpsestsSerializer
+)
 
 
 class PatientViewSet(ViewSet):
@@ -78,3 +93,93 @@ class StatusListView(ViewSet):
         queryset = PatientInfo.STATUS_CHOICES_CONDITIONS
         status_list = [{role[0]: role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def situation_list(self, request) -> Response:
+        queryset = SomaticStatus.CONDITION_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def nutrition_list(self, request) -> Response:
+        queryset = SomaticStatus.CATEGORY_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def skin_list(self, request) -> Response:
+        queryset = SomaticStatus.SKIN_TYPE_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def availability_list(self, request) -> Response:
+        queryset = SomaticStatus.AVAILABILITY_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def traces_list(self, request) -> Response:
+        queryset = SomaticStatus.TRACES_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def conjunctiva_list(self, request) -> Response:
+        queryset = SomaticStatus.TRACES_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def wheezing_list(self, request) -> Response:
+        queryset = SomaticStatus.WHEEZING_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def heart_list(self, request) -> Response:
+        queryset = SomaticStatus.HEART_TONES_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def pupils_list(self, request) -> Response:
+        queryset = NeurologicalStatus.PUPILS_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def meningeal_list(self, request) -> Response:
+        queryset = NeurologicalStatus.MENINGEAL_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def views_list(self, request) -> Response:
+        queryset = MentalStatus.VIEW_STATUS_CHOICES
+        status_list = [{role[0]: role[1]} for role in queryset]
+        return Response(status_list, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def category_list(self, request) -> Response:
+        queryset = Category.objects.all()
+        serializer = CategoryListSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def intoxication_list(self, request) -> Response:
+        queryset = TypeIntoxication.objects.all()
+        serializer = TypeIntoxicationSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def tolerance_list(self, request) -> Response:
+        queryset = TypeTolerance.objects.all()
+        serializer = TypeToleranceSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'])
+    def palimpsests_list(self, request) -> Response:
+        queryset = TypePalimpsests.objects.all()
+        serializer = TypePalimpsestsSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

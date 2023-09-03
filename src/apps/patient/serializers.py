@@ -4,7 +4,7 @@ from django.db.models import Model
 
 from .models.info_models import (
     AnamnesisDisease, AnamnesisLife, SomaticStatus, NeurologicalStatus, MentalStatus,
-    Category, TypeIntoxication, TypeTolerance, TypePalimpsests
+    Category, TypeIntoxication, TypeTolerance, TypePalimpsests, Category, TypeTolerance
 )
 
 
@@ -147,3 +147,31 @@ class PatientRecordSerializer(serializers.ModelSerializer):
 
         patient_info.save()
         return patient_info
+
+
+class CategoryListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title')
+
+
+class TypeIntoxicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TypeIntoxication
+        fields = ('id', 'title')
+
+
+class TypeToleranceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TypeTolerance
+        fields = ('id', 'title')
+
+
+class TypePalimpsestsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TypePalimpsests
+        fields = ('id', 'title')
