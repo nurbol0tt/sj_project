@@ -32,7 +32,7 @@ from ..serializers import (
 
 
 class PatientViewSet(ViewSet):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(request_body=PatientCreateSerializer)
     def create(self, request):

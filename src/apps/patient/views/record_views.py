@@ -11,9 +11,22 @@ from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 
 from src.apps.patient.models.patient_models import Patient, PatientInfo
-from src.apps.patient.models.info_models import AnamnesisLife
+from src.apps.patient.models.info_models import (
+    AnamnesisLife,
+    AnamnesisDisease,
+    SomaticStatus,
+    NeurologicalStatus,
+    MentalStatus,
+)
 
-from ..serializers import PatientCreateSerializer, PatientRecordSerializer
+from ..serializers import (
+    PatientCreateSerializer,
+    PatientRecordSerializer,
+    AnamnesisDiseaseSerializer,
+    SomaticStatusSerializer,
+    NeurologicalStatusSerializer,
+    MentalStatusSerializer,
+)
 
 
 class PatientRecordViewSet(ViewSet):
@@ -32,8 +45,40 @@ class PatientRecordViewSet(ViewSet):
 
     @swagger_auto_schema(request_body=PatientCreateSerializer)
     def partial_update(self, request, pk=None):
-        # Handle PATCH request to partially update an instance
         ...
 
-    def destroy(self, request, pk=None):
-        ...
+    @action(detail=True, methods=['PATCH'])
+    @swagger_auto_schema(request_body=AnamnesisDiseaseSerializer)
+    def anamnesis(self, request, pk=None):
+        anamnesis = get_object_or_404(AnamnesisDisease, id=pk)
+        serializer = AnamnesisDiseaseSerializer(anamnesis, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=True, methods=['PATCH'])
+    @swagger_auto_schema(request_body=SomaticStatusSerializer)
+    def somatic(self, request, pk=None):
+        somatic = get_object_or_404(SomaticStatus, id=pk)
+        serializer = SomaticStatusSerializer(somatic, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=True, methods=['PATCH'])
+    @swagger_auto_schema(request_body=NeurologicalStatusSerializer)
+    def neurological(self, request, pk=None):
+        somatic = get_object_or_404(NeurologicalStatus, id=pk)
+        serializer = NeurologicalStatusSerializer(somatic, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=True, methods=['PATCH'])
+    @swagger_auto_schema(request_body=MentalStatusSerializer)
+    def mental(self, request, pk=None):
+        somatic = get_object_or_404(MentalStatus, id=pk)
+        serializer = MentalStatusSerializer(somatic, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

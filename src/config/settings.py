@@ -18,7 +18,6 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "jet.dashboard",
     "jet",
@@ -241,7 +240,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'update_patient_status': {
         'task': 'src.apps.patient.tasks.update_patient_status',
-        # 'schedule': timedelta(days=1),  # Run the task daily
         'schedule': timedelta(seconds=10),  # Run the task daily
     },
 }

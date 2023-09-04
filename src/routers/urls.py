@@ -1,11 +1,17 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
-from src.apps.patient.views.patient_views import PatientViewSet, StatusListView
-from src.apps.patient.views.record_views import PatientRecordViewSet
-from rest_framework.routers import DefaultRouter
-from src.apps.user import views
 from django.urls import include
 
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.routers import DefaultRouter
+
+from src.apps.user import views
+from src.apps.patient.views.patient_views import (
+    PatientViewSet,
+    StatusListView,
+)
+from src.apps.patient.views.record_views import (
+    PatientRecordViewSet,
+)
 
 router = DefaultRouter()
 router.register(r'patients', PatientViewSet, basename='patient')
