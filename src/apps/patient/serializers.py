@@ -39,7 +39,7 @@ class PatientCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         anamnesis_life_data = validated_data.pop('anamnesis_life')  # Extract the nested data
         patient = Patient.objects.create(**validated_data)
-        AnamnesisLife.objects.create(patient=patient, **anamnesis_life_data)  # Create the related instance
+        AnamnesisLife.objects.create(patient=patient, **anamnesis_life_data)
         return patient
 
     def update(self, instance: Model, validated_data):
@@ -210,3 +210,14 @@ class TypePalimpsestsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TypePalimpsests
         fields = ('id', 'title')
+
+
+class PatientPatchSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PatientInfo
+        fields = (
+            'arrives', 'conditions', 'price',
+            'escorts', 'complaints', 'date_of_admission',
+            'date_of_discharge', 'departament', 'number_of_days', 'blood_type'
+        )

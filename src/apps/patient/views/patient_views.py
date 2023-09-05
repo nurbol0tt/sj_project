@@ -66,7 +66,6 @@ class PatientViewSet(ViewSet):
         serializer = PatientDetailSerializer(patient)
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
-
     @swagger_auto_schema(request_body=PatientCreateSerializer)
     def partial_update(self, request, pk=None):
         # Handle PATCH request to partially update an instance

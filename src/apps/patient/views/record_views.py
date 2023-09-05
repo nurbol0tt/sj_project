@@ -13,6 +13,7 @@ from src.apps.patient.models.info_models import (
     NeurologicalStatus,
     MentalStatus,
 )
+from ..models.patient_models import PatientInfo
 
 from ..serializers import (
     PatientCreateSerializer,
@@ -21,6 +22,7 @@ from ..serializers import (
     SomaticStatusSerializer,
     NeurologicalStatusSerializer,
     MentalStatusSerializer,
+    PatientPatchSerializer,
 )
 
 
@@ -37,11 +39,17 @@ class PatientRecordViewSet(ViewSet):
 
     def retrieve(self, request, pk=None):
         # Handle GET request to retrieve a single instance
-        ...
+        record = PatientInfo.objects.filter(patient_id=pk)
+        serializer = PatientRecordSerializer(record, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=PatientCreateSerializer)
+    @swagger_auto_schema(request_body=PatientPatchSerializer)
     def partial_update(self, request, pk=None):
-        ...
+        record = get_object_or_404(PatientInfo, id=pk)
+        serializer = PatientPatchSerializer(record, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['PATCH'])
     @swagger_auto_schema(request_body=AnamnesisDiseaseSerializer)
