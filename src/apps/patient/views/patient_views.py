@@ -26,7 +26,8 @@ from ..serializers import (
     CategoryListSerializer,
     TypeIntoxicationSerializer,
     TypeToleranceSerializer,
-    TypePalimpsestsSerializer
+    TypePalimpsestsSerializer,
+    PatientDetailSerializer,
 )
 
 
@@ -61,8 +62,10 @@ class PatientViewSet(ViewSet):
 
     def retrieve(self, request, pk=None):
         # Handle GET request to retrieve a single instance
-        # Count session
         patient = get_object_or_404(Patient, id=pk)
+        serializer = PatientDetailSerializer(patient)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
 
     @swagger_auto_schema(request_body=PatientCreateSerializer)
     def partial_update(self, request, pk=None):

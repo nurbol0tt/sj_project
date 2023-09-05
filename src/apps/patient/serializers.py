@@ -3,8 +3,15 @@ from .models.patient_models import Patient, PatientInfo
 from django.db.models import Model
 
 from .models.info_models import (
-    AnamnesisDisease, AnamnesisLife, SomaticStatus, NeurologicalStatus, MentalStatus,
-    TypeIntoxication, TypePalimpsests, Category, TypeTolerance
+    AnamnesisDisease,
+    AnamnesisLife,
+    SomaticStatus,
+    NeurologicalStatus,
+    MentalStatus,
+    TypeIntoxication,
+    TypePalimpsests,
+    Category,
+    TypeTolerance
 )
 
 
@@ -62,7 +69,34 @@ class PatientListSerializer(serializers.ModelSerializer):
     def get_avatar(self, obj):
         if obj.avatar:
             return "http://139.59.132.105" + obj.avatar.url
-            # return "http://127.0.0.1:8000/" + obj.avatar.url
+
+
+class PatientInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientInfo
+        fields = ('id', 'date_of_admission', 'date_of_discharge',)
+
+
+class PatientDetailSerializer(serializers.ModelSerializer):
+    anamnesis = AnamnesisLifeSerializers(source='anamnesis_life')
+    avatar = serializers.SerializerMethodField()
+    patient_info = PatientInfoSerializer(many=True, read_only=True, source='patientinfo_set')
+    patient_info_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Patient
+        fields = (
+            'id', 'name', 'surname', 'patronymic',
+            'avatar', 'in_hospital', 'date_of_birth', 'anamnesis',
+            'patient_info_count', 'patient_info',
+        )
+
+    def get_avatar(self, obj):
+        if obj.avatar:
+            return "http://127.0.0.1:8000/" + obj.avatar.url
+
+    def get_patient_info_count(self, obj):
+        return obj.patientinfo_set.count()
 
 
 class AnamnesisDiseaseSerializer(serializers.ModelSerializer):

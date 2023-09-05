@@ -274,4 +274,3 @@ class MentalStatus(models.Model):
     suicide_attempt = models.CharField(max_length=125,)
     causes_of_alcohol = models.CharField(max_length=125,)
     purpose_of_hospitalization = models.CharField(max_length=125,)
-    
