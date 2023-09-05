@@ -1,18 +1,13 @@
-from django.shortcuts import render
-
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.decorators import action
 
 from drf_yasg.utils import swagger_auto_schema
 
-from src.apps.patient.models.patient_models import Patient, PatientInfo
 from src.apps.patient.models.info_models import (
-    AnamnesisLife,
     AnamnesisDisease,
     SomaticStatus,
     NeurologicalStatus,
@@ -30,6 +25,7 @@ from ..serializers import (
 
 
 class PatientRecordViewSet(ViewSet):
+    permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(request_body=PatientRecordSerializer)
     def create(self, request):

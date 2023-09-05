@@ -4,7 +4,7 @@ from django.db.models import Model
 
 from .models.info_models import (
     AnamnesisDisease, AnamnesisLife, SomaticStatus, NeurologicalStatus, MentalStatus,
-    Category, TypeIntoxication, TypeTolerance, TypePalimpsests, Category, TypeTolerance
+    TypeIntoxication, TypePalimpsests, Category, TypeTolerance
 )
 
 
@@ -61,7 +61,8 @@ class PatientListSerializer(serializers.ModelSerializer):
 
     def get_avatar(self, obj):
         if obj.avatar:
-            return "http://127.0.0.1:8000/" + obj.avatar.url
+            return "http://139.59.132.105" + obj.avatar.url
+            # return "http://127.0.0.1:8000/" + obj.avatar.url
 
 
 class AnamnesisDiseaseSerializer(serializers.ModelSerializer):
@@ -72,7 +73,7 @@ class AnamnesisDiseaseSerializer(serializers.ModelSerializer):
 
 
 class SomaticStatusSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = SomaticStatus
         fields = '__all__'

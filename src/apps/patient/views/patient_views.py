@@ -1,11 +1,10 @@
-from django.shortcuts import render
+from django.db.models import Q
 
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.decorators import action
 
 from drf_yasg.utils import swagger_auto_schema
@@ -44,14 +43,27 @@ class PatientViewSet(ViewSet):
 
     def list(self, request):
         # Handle GET request to list all instances
+        search_query = request.query_params.get('search', None)
         queryset = Patient.objects.all()
+
+        if search_query:
+            keywords = search_query.split()
+            q_objects = Q()
+            for keyword in keywords:
+                q_objects |= (
+                        Q(name__icontains=keyword) |
+                        Q(surname__icontains=keyword) |
+                        Q(patronymic__icontains=keyword)
+                )
+            queryset = queryset.filter(q_objects)
         serializer = PatientListSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
     def retrieve(self, request, pk=None):
         # Handle GET request to retrieve a single instance
+        # Count session
         patient = get_object_or_404(Patient, id=pk)
-    
+
     @swagger_auto_schema(request_body=PatientCreateSerializer)
     def partial_update(self, request, pk=None):
         # Handle PATCH request to partially update an instance
