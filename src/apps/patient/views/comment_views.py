@@ -12,9 +12,9 @@ from drf_yasg.utils import swagger_auto_schema
 from src.apps.patient.models.comment_models import Diary, PsychologicalConsultation
 from src.apps.patient.serializers import (
     DiaryCreateSerializer,
-    DiaryPatchSerializer,
+    DiarySerializer,
     PsychologicalCreateSerializer,
-    PsychologicalPatchSerializer,
+    PsychologicalSerializer,
 )
 
 
@@ -28,10 +28,15 @@ class DiaryViewSet(ViewSet):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @swagger_auto_schema(request_body=DiaryPatchSerializer)
+    def retrieve(self, request, pk=None):
+        query = Diary.objects.filter(patient_id=pk)
+        serializer = DiarySerializer(query, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=DiarySerializer)
     def partial_update(self, request, pk=None):
         patient = get_object_or_404(Diary, id=pk)
-        serializer = DiaryPatchSerializer(patient, data=request.data, partial=True)
+        serializer = DiarySerializer(patient, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -47,10 +52,15 @@ class PsychologicalConsultationViewSet(ViewSet):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @swagger_auto_schema(request_body=PsychologicalPatchSerializer)
+    def retrieve(self, request, pk=None):
+        query = PsychologicalConsultation.objects.filter(patient_id=pk)
+        serializer = PsychologicalSerializer(query, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=PsychologicalSerializer)
     def partial_update(self, request, pk=None):
         patient = get_object_or_404(PsychologicalConsultation, id=pk)
-        serializer = PsychologicalPatchSerializer(
+        serializer = PsychologicalSerializer(
             patient, data=request.data, partial=True
         )
         serializer.is_valid(raise_exception=True)

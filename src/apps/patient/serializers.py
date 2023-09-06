@@ -234,7 +234,7 @@ class DiaryCreateSerializer(serializers.ModelSerializer):
         )
 
 
-class DiaryPatchSerializer(serializers.ModelSerializer):
+class DiarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Diary
@@ -252,7 +252,7 @@ class PsychologicalCreateSerializer(serializers.ModelSerializer):
         )
 
 
-class PsychologicalPatchSerializer(serializers.ModelSerializer):
+class PsychologicalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PsychologicalConsultation
