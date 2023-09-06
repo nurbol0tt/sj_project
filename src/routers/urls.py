@@ -6,7 +6,8 @@ from rest_framework.routers import DefaultRouter
 
 from src.apps.patient.views.comment_views import (
     DiaryViewSet,
-    PsychologicalConsultationViewSet, FileViewSet,
+    PsychologicalConsultationViewSet,
+    FileViewSet,
 )
 from src.apps.user import views
 from src.apps.patient.views.patient_views import (
