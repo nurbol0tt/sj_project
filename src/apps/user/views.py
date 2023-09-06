@@ -32,7 +32,7 @@ class Profile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request) -> Response:
-        user = User.objects.get(name=request.user)
+        user = User.objects.filter(name=request.user).only('name', 'surname', 'phone').first()
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

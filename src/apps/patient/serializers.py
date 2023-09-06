@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from .models.comment_models import Diary, PsychologicalConsultation
 from .models.patient_models import Patient, PatientInfo
 from django.db.models import Model
 
@@ -220,4 +222,40 @@ class PatientPatchSerializer(serializers.ModelSerializer):
             'arrives', 'conditions', 'price',
             'escorts', 'complaints', 'date_of_admission',
             'date_of_discharge', 'departament', 'number_of_days', 'blood_type'
+        )
+
+
+class DiaryCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Diary
+        fields = (
+            'content', 'patient'
+        )
+
+
+class DiaryPatchSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Diary
+        fields = (
+            'content',
+        )
+
+
+class PsychologicalCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PsychologicalConsultation
+        fields = (
+            'content', 'patient'
+        )
+
+
+class PsychologicalPatchSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PsychologicalConsultation
+        fields = (
+            'content',
         )

@@ -1,5 +1,7 @@
 from django.db import models
 
+from src.apps.patient.models.patient_models import Patient
+
 
 class Diary(models.Model):
     content = models.TextField()
@@ -21,3 +23,11 @@ class PsychologicalConsultation(models.Model):
 
     def __str__(self) -> str:
         return self.content
+
+
+class Photo(models.Model):
+    file = models.FileField()
+    patient = models.ForeignKey(
+        Patient,
+        on_delete=models.CASCADE,
+    )

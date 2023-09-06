@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
 
-
+    "debug_toolbar",
     "django_filters",
     "drf_yasg",
     "rest_framework",
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -246,3 +247,24 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(seconds=10),  # Run the task daily
     },
 }
+
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.history.HistoryPanel',
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

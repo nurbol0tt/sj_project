@@ -4,6 +4,10 @@ from django.urls import include
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 
+from src.apps.patient.views.comment_views import (
+    DiaryViewSet,
+    PsychologicalConsultationViewSet, FileViewSet,
+)
 from src.apps.user import views
 from src.apps.patient.views.patient_views import (
     PatientViewSet,
@@ -17,6 +21,9 @@ router = DefaultRouter()
 router.register(r'patients', PatientViewSet, basename='patient')
 router.register(r'status', StatusListView, basename='status')
 router.register(r'records', PatientRecordViewSet, basename='record')
+router.register(r'diaries', DiaryViewSet, basename='diary')
+router.register(r'psychology', PsychologicalConsultationViewSet, basename='psychology')
+router.register(r'files', FileViewSet, basename='file')
 
 urlpatterns = [
     path('', include(router.urls)),

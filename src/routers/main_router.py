@@ -2,12 +2,12 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from .yasg_router import urlpatterns as yasg
-from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+    path("__debug__/", include("debug_toolbar.urls")),
 
     path('api/v1/', include('src.routers.urls')),
 ]
