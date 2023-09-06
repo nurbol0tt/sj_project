@@ -142,7 +142,7 @@ class PatientRecordSerializer(serializers.ModelSerializer):
         fields = (
             'arrives', 'price', 'conditions', 'escorts', 'escorts',
             'complaints', 'date_of_admission', 'date_of_discharge',
-            'departament', 'number_of_days', 'blood_type', 'patient',
+            'departament', 'number_of_days', 'blood_type',
             'anamnesis', 'somatic', 'neurological', 'mental'
         )
 

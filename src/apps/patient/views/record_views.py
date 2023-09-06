@@ -13,7 +13,7 @@ from src.apps.patient.models.info_models import (
     NeurologicalStatus,
     MentalStatus,
 )
-from ..models.patient_models import PatientInfo
+from ..models.patient_models import PatientInfo, Patient
 
 from ..serializers import (
     PatientRecordSerializer,
@@ -28,12 +28,14 @@ from ..serializers import (
 class PatientRecordViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
+    @action(detail=True, methods=['post'])
     @swagger_auto_schema(request_body=PatientRecordSerializer)
-    def create(self, request):
+    def record(self, request, pk=None):
         # Handle POST request to create a new instance
+        patient = get_object_or_404(Patient, id=pk)
         serializer = PatientRecordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
