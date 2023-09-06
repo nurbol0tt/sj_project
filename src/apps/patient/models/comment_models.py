@@ -26,7 +26,7 @@ class PsychologicalConsultation(models.Model):
 
 
 class Photo(models.Model):
-    file = models.FileField()
+    file = models.FileField(upload_to='photo/')
     patient = models.ForeignKey(
         Patient,
         on_delete=models.CASCADE,

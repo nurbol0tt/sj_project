@@ -1,4 +1,6 @@
-from django.db.models import Q
+from typing import Type, Tuple
+from rest_framework.parsers import FormParser, MultiPartParser
+
 
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import get_object_or_404
@@ -9,34 +11,39 @@ from rest_framework.decorators import action
 
 from drf_yasg.utils import swagger_auto_schema
 
-from src.apps.patient.models.comment_models import Diary, PsychologicalConsultation
+from src.apps.patient.models.patient_models import Patient
+from src.apps.patient.models.comment_models import (
+    Diary,
+    PsychologicalConsultation,
+    Photo,
+)
 from src.apps.patient.serializers import (
-    DiaryCreateSerializer,
-    DiarySerializer,
-    PsychologicalCreateSerializer,
-    PsychologicalSerializer,
+    ContentSerializer,
+    PhotoSerializer,
 )
 
 
 class DiaryViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(request_body=DiaryCreateSerializer)
-    def create(self, request):
-        serializer = DiaryCreateSerializer(data=request.data)
+    @action(detail=True, methods=['POST'],)  # url_path='create-diary-entry'
+    @swagger_auto_schema(request_body=ContentSerializer)
+    def diary_entry(self, request, pk=None) -> Response:
+        patient = get_object_or_404(Patient, id=pk)
+        serializer = ContentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, pk=None) -> Response:
         query = Diary.objects.filter(patient_id=pk)
-        serializer = DiarySerializer(query, many=True)
+        serializer = ContentSerializer(query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=DiarySerializer)
-    def partial_update(self, request, pk=None):
+    @swagger_auto_schema(request_body=ContentSerializer)
+    def partial_update(self, request, pk=None) -> Response:
         patient = get_object_or_404(Diary, id=pk)
-        serializer = DiarySerializer(patient, data=request.data, partial=True)
+        serializer = ContentSerializer(patient, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -45,22 +52,24 @@ class DiaryViewSet(ViewSet):
 class PsychologicalConsultationViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(request_body=PsychologicalCreateSerializer)
-    def create(self, request):
-        serializer = PsychologicalCreateSerializer(data=request.data)
+    @action(detail=True, methods=['POST'],)
+    @swagger_auto_schema(request_body=ContentSerializer)
+    def psychology(self, request, pk=None) -> Response:
+        patient = get_object_or_404(Patient, id=pk)
+        serializer = ContentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request, pk=None):
-        query = PsychologicalConsultation.objects.filter(patient_id=pk)
-        serializer = PsychologicalSerializer(query, many=True)
+    def retrieve(self, request, pk=None) -> Response:
+        queryset = PsychologicalConsultation.objects.filter(patient_id=pk)
+        serializer = ContentSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=PsychologicalSerializer)
-    def partial_update(self, request, pk=None):
+    @swagger_auto_schema(request_body=ContentSerializer)
+    def partial_update(self, request, pk=None) -> Response:
         patient = get_object_or_404(PsychologicalConsultation, id=pk)
-        serializer = PsychologicalSerializer(
+        serializer = ContentSerializer(
             patient, data=request.data, partial=True
         )
         serializer.is_valid(raise_exception=True)
@@ -70,11 +79,29 @@ class PsychologicalConsultationViewSet(ViewSet):
 
 class FileViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
+    parser_classes: Tuple[Type[MultiPartParser], Type[FormParser]] = (MultiPartParser, FormParser)
 
-    # @swagger_auto_schema(request_body=...)
-    def create(self, request):
-        ...
+    @action(detail=True, methods=['post'],)
+    @swagger_auto_schema(request_body=PhotoSerializer)
+    def file(self, request, pk=None) -> Response:
+        patient = get_object_or_404(Patient, id=pk)
+        serializer = PhotoSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(patient=patient)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    # @swagger_auto_schema(request_body=...)
-    def partial_update(self, request):
-        ...
+    @action(detail=True, methods=['patch'],)
+    @swagger_auto_schema(request_body=PhotoSerializer)
+    def patch(self, request, pk=None) -> Response:
+        photo = get_object_or_404(Photo, id=pk)
+        serializer = PhotoSerializer(
+            photo, data=request.data, partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def destroy(self, pk=None):
+        photo = get_object_or_404(Photo, id=pk)
+        photo.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

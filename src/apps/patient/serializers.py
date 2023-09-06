@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models.comment_models import Diary, PsychologicalConsultation
+from .models.comment_models import Diary, PsychologicalConsultation, Photo
 from .models.patient_models import Patient, PatientInfo
 from django.db.models import Model
 
@@ -82,7 +82,9 @@ class PatientInfoSerializer(serializers.ModelSerializer):
 class PatientDetailSerializer(serializers.ModelSerializer):
     anamnesis = AnamnesisLifeSerializers(source='anamnesis_life')
     avatar = serializers.SerializerMethodField()
-    patient_info = PatientInfoSerializer(many=True, read_only=True, source='patientinfo_set')
+    patient_info = PatientInfoSerializer(
+        many=True, read_only=True, source='patientinfo_set',
+    )
     patient_info_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -225,16 +227,7 @@ class PatientPatchSerializer(serializers.ModelSerializer):
         )
 
 
-class DiaryCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Diary
-        fields = (
-            'content', 'patient'
-        )
-
-
-class DiarySerializer(serializers.ModelSerializer):
+class ContentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Diary
@@ -243,19 +236,10 @@ class DiarySerializer(serializers.ModelSerializer):
         )
 
 
-class PsychologicalCreateSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = PsychologicalConsultation
+        model = Photo
         fields = (
-            'content', 'patient'
-        )
-
-
-class PsychologicalSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = PsychologicalConsultation
-        fields = (
-            'content',
+            'file',
         )

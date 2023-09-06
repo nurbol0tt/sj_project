@@ -16,7 +16,6 @@ from src.apps.patient.models.info_models import (
 from ..models.patient_models import PatientInfo
 
 from ..serializers import (
-    PatientCreateSerializer,
     PatientRecordSerializer,
     AnamnesisDiseaseSerializer,
     SomaticStatusSerializer,
