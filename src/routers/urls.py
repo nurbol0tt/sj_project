@@ -34,4 +34,5 @@ urlpatterns = [
     path('login/', views.LoginView.as_view()),
     path('roles/', views.RoleListView.as_view()),
     path('me/', views.Profile.as_view()),
+    path('staffs/', views.UserLisView.as_view()),
 ]

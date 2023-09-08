@@ -37,6 +37,14 @@ class Profile(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class UserLisView(APIView):
+
+    def get(self, request) -> Response:
+        user = User.objects.all().only('name', 'surname', 'phone')
+        serializer = UserSerializer(user, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class RoleListView(APIView):
 
     def get(self, request) -> Response:
