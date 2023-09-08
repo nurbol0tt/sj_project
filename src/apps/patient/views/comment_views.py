@@ -19,7 +19,7 @@ from src.apps.patient.models.comment_models import (
 )
 from src.apps.patient.serializers import (
     ContentSerializer,
-    PhotoSerializer,
+    PhotoSerializer, PhotoListSerializer,
 )
 
 
@@ -103,12 +103,12 @@ class FileViewSet(ViewSet):
 
     def retrieve(self, request, pk=None) -> Response:
         file = get_object_or_404(Photo, id=pk)
-        serializer = PhotoSerializer(file, context={'request': request})
+        serializer = PhotoListSerializer(file, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request) -> Response:
         queryset = Photo.objects.all()
-        serializer = PhotoSerializer(queryset, many=True, context={'request': request})
+        serializer = PhotoListSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, pk=None) -> Response:

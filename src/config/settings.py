@@ -268,3 +268,5 @@ DEBUG_TOOLBAR_PANELS = [
 # INTERNAL_IPS = [
 #     "127.0.0.1",
 # ]
+
+PHOTO_URL = os.getenv('PHOTO_URL')

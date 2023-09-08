@@ -16,6 +16,7 @@ from .models.info_models import (
     Category,
     TypeTolerance
 )
+from ...config import settings
 
 
 class AnamnesisLifeSerializers(serializers.ModelSerializer):
@@ -70,8 +71,8 @@ class PatientListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'surname', 'patronymic', 'avatar', 'in_hospital')
 
     def get_avatar(self, obj):
-        if obj.file:
-            return self.context['request'].build_absolute_uri(reverse('patient-detail', args=[obj.id]))
+        if obj.avatar:
+            return "http://139.59.132.105" + obj.avatar.url
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
@@ -98,7 +99,7 @@ class PatientDetailSerializer(serializers.ModelSerializer):
 
     def get_avatar(self, obj):
         if obj.avatar:
-            return "http://127.0.0.1:8000/" + obj.avatar.url
+            return settings.PHOTO_URL + obj.avatar.url
 
     def get_patient_info_count(self, obj):
         return obj.patientinfo_set.count()
@@ -238,6 +239,15 @@ class ContentSerializer(serializers.ModelSerializer):
 
 
 class PhotoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Photo
+        fields = (
+            'file',
+        )
+
+
+class PhotoListSerializer(serializers.ModelSerializer):
     file = serializers.SerializerMethodField()
 
     class Meta:
@@ -248,4 +258,4 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     def get_file(self, obj):
         if obj.file:
-            return self.context['request'].build_absolute_uri(reverse('file-detail', args=[obj.id]))
+            return settings.PHOTO_URL + obj.file.url
