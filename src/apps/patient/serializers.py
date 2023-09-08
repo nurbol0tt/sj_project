@@ -1,3 +1,4 @@
+from django.urls import reverse
 from rest_framework import serializers
 
 from .models.comment_models import Diary, PsychologicalConsultation, Photo
@@ -69,8 +70,8 @@ class PatientListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'surname', 'patronymic', 'avatar', 'in_hospital')
 
     def get_avatar(self, obj):
-        if obj.avatar:
-            return "http://139.59.132.105" + obj.avatar.url
+        if obj.file:
+            return self.context['request'].build_absolute_uri(reverse('patient-detail', args=[obj.id]))
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
@@ -237,9 +238,14 @@ class ContentSerializer(serializers.ModelSerializer):
 
 
 class PhotoSerializer(serializers.ModelSerializer):
+    file = serializers.SerializerMethodField()
 
     class Meta:
         model = Photo
         fields = (
             'file',
         )
+
+    def get_file(self, obj):
+        if obj.file:
+            return self.context['request'].build_absolute_uri(reverse('file-detail', args=[obj.id]))

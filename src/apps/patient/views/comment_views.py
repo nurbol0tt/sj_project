@@ -95,13 +95,23 @@ class FileViewSet(ViewSet):
     def patch(self, request, pk=None) -> Response:
         photo = get_object_or_404(Photo, id=pk)
         serializer = PhotoSerializer(
-            photo, data=request.data, partial=True
+            photo, data=request.data, partial=True,
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
-    def destroy(self, pk=None):
+    def retrieve(self, request, pk=None) -> Response:
+        file = get_object_or_404(Photo, id=pk)
+        serializer = PhotoSerializer(file, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def list(self, request) -> Response:
+        queryset = Photo.objects.all()
+        serializer = PhotoSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, pk=None) -> Response:
         photo = get_object_or_404(Photo, id=pk)
         photo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
