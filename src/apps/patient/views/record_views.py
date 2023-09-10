@@ -1,9 +1,14 @@
+from datetime import datetime
+
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.views import APIView
+from django.db.models import Sum
+
 
 from drf_yasg.utils import swagger_auto_schema
 
@@ -87,3 +92,33 @@ class PatientRecordViewSet(ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
+class MonthlyIncomeView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        current_year = datetime.now().year
+
+        # Initialize a dictionary to store monthly incomes
+        monthly_incomes = {}
+
+        # Iterate through the months starting from September of the current year
+        for year in range(2023, current_year + 1):  # Calculate for the current year and the next year
+            start_month = 9 if year == current_year else 1  # Start from September for the current year
+            end_month = 12 if year == current_year else 12  # End in December for both years
+
+            for month in range(start_month, end_month + 1):
+                # Filter PatientInfo instances for the specified year and month
+                income_data = PatientInfo.objects.filter(
+                    date_of_admission__year=year,
+                    date_of_admission__month=month
+                ).aggregate(total_income=Sum('price'))
+
+                # Extract the total income for the month
+                total_income = income_data['total_income'] or 0
+
+                # Store the income in the dictionary
+                monthly_incomes[f"{year}-{month:02d}"] = total_income
+
+        return Response(monthly_incomes)

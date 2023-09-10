@@ -16,6 +16,7 @@ from src.apps.patient.views.patient_views import (
 )
 from src.apps.patient.views.record_views import (
     PatientRecordViewSet,
+    MonthlyIncomeView,
 )
 
 router = DefaultRouter()
@@ -35,4 +36,5 @@ urlpatterns = [
     path('roles/', views.RoleListView.as_view()),
     path('me/', views.Profile.as_view()),
     path('staffs/', views.UserLisView.as_view()),
+    path('monthly-income/', MonthlyIncomeView.as_view()),
 ]
