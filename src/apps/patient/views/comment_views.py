@@ -1,7 +1,6 @@
 from typing import Type, Tuple
+
 from rest_framework.parsers import FormParser, MultiPartParser
-
-
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -19,7 +18,8 @@ from src.apps.patient.models.comment_models import (
 )
 from src.apps.patient.serializers import (
     ContentSerializer,
-    PhotoSerializer, PhotoListSerializer,
+    PhotoSerializer,
+    PhotoListSerializer,
 )
 
 
@@ -35,9 +35,15 @@ class DiaryViewSet(ViewSet):
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request, pk=None) -> Response:
+    @action(detail=True, methods=['get'],)
+    def lists(self, request, pk=None) -> Response:
         query = Diary.objects.filter(patient_id=pk)
         serializer = ContentSerializer(query, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None) -> Response:
+        diary = get_object_or_404(Diary, id=pk)
+        serializer = ContentSerializer(diary)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(request_body=ContentSerializer)
@@ -47,6 +53,11 @@ class DiaryViewSet(ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def destroy(self, request, pk=None) -> Response:
+        patient = get_object_or_404(Diary, id=pk)
+        patient.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PsychologicalConsultationViewSet(ViewSet):
@@ -61,9 +72,15 @@ class PsychologicalConsultationViewSet(ViewSet):
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request, pk=None) -> Response:
+    @action(detail=True, methods=['get'], )
+    def lists(self, request, pk=None) -> Response:
         queryset = PsychologicalConsultation.objects.filter(patient_id=pk)
         serializer = ContentSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None) -> Response:
+        diary = get_object_or_404(PsychologicalConsultation, id=pk)
+        serializer = ContentSerializer(diary)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(request_body=ContentSerializer)
@@ -75,6 +92,11 @@ class PsychologicalConsultationViewSet(ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def destroy(self, request, pk=None) -> Response:
+        patient = get_object_or_404(PsychologicalConsultation, id=pk)
+        patient.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class FileViewSet(ViewSet):
@@ -103,12 +125,13 @@ class FileViewSet(ViewSet):
 
     def retrieve(self, request, pk=None) -> Response:
         file = get_object_or_404(Photo, id=pk)
-        serializer = PhotoListSerializer(file, context={'request': request})
+        serializer = PhotoListSerializer(file)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def list(self, request) -> Response:
-        queryset = Photo.objects.all()
-        serializer = PhotoListSerializer(queryset, many=True, context={'request': request})
+    @action(detail=True, methods=['get'],)
+    def all_photo(self, request, pk=None) -> Response:
+        queryset = Photo.objects.filter(patient_id=pk)
+        serializer = PhotoListSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, pk=None) -> Response:
