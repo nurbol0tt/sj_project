@@ -27,6 +27,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     
 
 class UserSerializer(serializers.ModelSerializer):
+    role = serializers.CharField(source='get_role_display', read_only=True)
+
     class Meta:
         model = User
-        fields = ("name", "surname", "phone",)
+        fields = ("name", "surname", "phone", "role")

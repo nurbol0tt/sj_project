@@ -16,6 +16,7 @@ from src.apps.patient.models.info_models import (
     AnamnesisDisease,
     SomaticStatus,
     NeurologicalStatus,
+
     MentalStatus,
 )
 from ..models.patient_models import PatientInfo, Patient

@@ -28,11 +28,22 @@ class LoginView(TokenObtainPairView):
     pass
 
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        user = User.objects.get()
+        if response.status_code == 200:
+            user = self.user
+            role = user.role
+            response.data['role'] = role
+        return response
+
+
 class Profile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request) -> Response:
-        user = User.objects.filter(name=request.user).only('name', 'surname', 'phone').first()
+        user = User.objects.get(name=request.user)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
