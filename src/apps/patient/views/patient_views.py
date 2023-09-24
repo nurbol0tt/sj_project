@@ -87,91 +87,91 @@ class StatusListView(ViewSet):
     @action(detail=False, methods=['GET'])
     def education_list(self, request) -> Response:
         queryset = AnamnesisLife.EDUCATIONS_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def family_list(self, request) -> Response:
         queryset = AnamnesisLife.FAMILY_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def arrives_list(self, request) -> Response:
         queryset = PatientInfo.STATUS_CHOICES_ARRIVES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def conditions_list(self, request) -> Response:
         queryset = PatientInfo.STATUS_CHOICES_CONDITIONS
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def situation_list(self, request) -> Response:
         queryset = SomaticStatus.CONDITION_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def nutrition_list(self, request) -> Response:
         queryset = SomaticStatus.CATEGORY_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def skin_list(self, request) -> Response:
         queryset = SomaticStatus.SKIN_TYPE_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def availability_list(self, request) -> Response:
         queryset = SomaticStatus.AVAILABILITY_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def traces_list(self, request) -> Response:
         queryset = SomaticStatus.TRACES_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def conjunctiva_list(self, request) -> Response:
         queryset = SomaticStatus.TRACES_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def wheezing_list(self, request) -> Response:
         queryset = SomaticStatus.WHEEZING_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def heart_list(self, request) -> Response:
         queryset = SomaticStatus.HEART_TONES_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def pupils_list(self, request) -> Response:
         queryset = NeurologicalStatus.PUPILS_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def meningeal_list(self, request) -> Response:
         queryset = NeurologicalStatus.MENINGEAL_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
     def views_list(self, request) -> Response:
         queryset = MentalStatus.VIEW_STATUS_CHOICES
-        status_list = [{role[0]: role[1]} for role in queryset]
+        status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
