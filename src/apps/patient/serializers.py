@@ -1,7 +1,6 @@
-from django.urls import reverse
 from rest_framework import serializers
 
-from .models.comment_models import Diary, PsychologicalConsultation, Photo
+from .models.comment_models import Diary, Photo
 from .models.patient_models import Patient, PatientInfo
 from django.db.models import Model
 
@@ -234,7 +233,7 @@ class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Diary
         fields = (
-            'content',
+            'id', 'content',
         )
 
 
@@ -253,7 +252,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = (
-            'file',
+            'id', 'file',
         )
 
     def get_file(self, obj):
