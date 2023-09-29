@@ -134,7 +134,7 @@ class FileViewSet(ViewSet):
         serializer = PhotoListSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def destroy(self, pk=None) -> Response:
+    def destroy(self, request, pk=None) -> Response:
         photo = get_object_or_404(Photo, id=pk)
         photo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
