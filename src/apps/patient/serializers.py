@@ -105,7 +105,7 @@ class PatientDetailSerializer(serializers.ModelSerializer):
 
 
 class AnamnesisDiseaseSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = AnamnesisDisease
         fields = '__all__'
@@ -137,6 +137,7 @@ class PatientRecordSerializer(serializers.ModelSerializer):
     somatic = SomaticStatusSerializer()
     neurological = NeurologicalStatusSerializer()
     mental = MentalStatusSerializer()
+    arrives = serializers.CharField(source='get_arrives_display', read_only=True)
 
     class Meta:
         model = PatientInfo
