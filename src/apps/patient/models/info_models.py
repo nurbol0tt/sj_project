@@ -74,10 +74,12 @@ class AnamnesisDisease(models.Model):
     receiving_something_time = models.DateField(max_length=255)
     somatic_disorders = models.CharField(max_length=255)
     mental_disorders = models.CharField(max_length=255)
+    #
     category = models.ManyToManyField(Category)
     type_tolerance = models.ManyToManyField(TypeTolerance)
     type_intoxication = models.ManyToManyField(TypeIntoxication)
     type_palimpsests = models.ManyToManyField(TypePalimpsests)
+    #
     daily_tolerance = models.FloatField()
     binge_drinking = models.CharField(max_length=25)
     light_gaps = models.CharField(max_length=25)

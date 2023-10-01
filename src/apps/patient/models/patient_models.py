@@ -43,6 +43,7 @@ class PatientInfo(models.Model):
     departament = models.IntegerField()
     number_of_days = models.IntegerField()
     blood_type = models.CharField(max_length=25)
+    # 1
     patient = models.ForeignKey(
         Patient,
         on_delete=models.CASCADE
