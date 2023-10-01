@@ -19,6 +19,8 @@ from ...config import settings
 
 
 class AnamnesisLifeSerializers(serializers.ModelSerializer):
+    education = serializers.CharField(source='get_education_display', read_only=True)
+    martial_status = serializers.CharField(source='get_martial_status_display', read_only=True)
 
     class Meta:
         model = AnamnesisLife
@@ -82,11 +84,11 @@ class PatientInfoSerializer(serializers.ModelSerializer):
 
 class PatientDetailSerializer(serializers.ModelSerializer):
     anamnesis = AnamnesisLifeSerializers(source='anamnesis_life')
-    avatar = serializers.SerializerMethodField()
     patient_info = PatientInfoSerializer(
         many=True, read_only=True, source='patientinfo_set',
     )
     patient_info_count = serializers.SerializerMethodField()
+    avatar = serializers.SerializerMethodField()
 
     class Meta:
         model = Patient
