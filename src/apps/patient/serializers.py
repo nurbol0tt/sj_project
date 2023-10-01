@@ -191,7 +191,6 @@ class AnamnesisDiseaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnamnesisDisease
-        # fields = '__all__'
         fields = (
             'id', 'receiving_something', 'receiving_something_time', 'somatic_disorders',
             'mental_disorders', 'category', 'type_tolerance', 'type_intoxication',
