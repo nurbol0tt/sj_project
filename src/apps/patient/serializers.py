@@ -230,16 +230,20 @@ class PatientRecordSerializer(serializers.ModelSerializer):
         anamnesis_instance = AnamnesisDisease.objects.create(**anamnesis_data)
 
         for category_data in categories:
-            anamnesis_instance.category.add(category_data)
+            category, created = Category.objects.get_or_create(title=category_data['title'])
+            anamnesis_instance.category.add(category)
 
-        for type_tolerance in type_tolerances:
-            anamnesis_instance.type_tolerance.add(type_tolerance)
+        for tolerance_data in type_tolerances:
+            tolerance, created = TypeTolerance.objects.get_or_create(title=tolerance_data['title'])
+            anamnesis_instance.type_tolerance.add(tolerance)
 
-        for type_intoxication in type_intoxications:
-            anamnesis_instance.type_intoxication.add(type_intoxication)
+        for intoxication_data in type_intoxications:
+            intoxication, created = TypeIntoxication.objects.get_or_create(title=intoxication_data['title'])
+            anamnesis_instance.type_intoxication.add(intoxication)
 
-        for type_palimpsest in type_palimpsests:
-            anamnesis_instance.type_palimpsests.add(type_palimpsest)
+        for palimpsest_data in type_palimpsests:
+            palimpsest, created = TypePalimpsests.objects.get_or_create(title=palimpsest_data['title'])
+            anamnesis_instance.type_palimpsests.add(palimpsest)
 
         somatic_instance = SomaticStatus.objects.create(**somatic_data)
         neurological_instance = NeurologicalStatus.objects.create(**neurological_data)
