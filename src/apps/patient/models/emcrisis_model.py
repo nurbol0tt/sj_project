@@ -1,5 +1,7 @@
 from django.db import models
 
+from src.apps.patient.models.patient_models import Patient
+
 
 class Epicrisis(models.Model):
     VIEW_STATUS_CHOICES = (
