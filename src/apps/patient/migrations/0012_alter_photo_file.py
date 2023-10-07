@@ -8,26 +8,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-<<<<<<< HEAD
-
     dependencies = [
         ('patient', '0011_photo'),
-=======
-    dependencies = [
-        ("patient", "0011_photo"),
->>>>>>> bc3da9ea686b9ca24dac39e74b24b05edf297379
     ]
 
     operations = [
         migrations.AlterField(
-<<<<<<< HEAD
             model_name='photo',
             name='file',
             field=models.FileField(upload_to='photo/'),
-=======
-            model_name="photo",
-            name="file",
-            field=models.FileField(upload_to="photo/"),
->>>>>>> bc3da9ea686b9ca24dac39e74b24b05edf297379
         ),
     ]
