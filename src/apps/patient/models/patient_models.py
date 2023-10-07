@@ -1,5 +1,10 @@
 from django.db import models
-from .info_models import AnamnesisDisease, SomaticStatus, NeurologicalStatus, MentalStatus
+from .info_models import (
+    AnamnesisDisease,
+    SomaticStatus,
+    NeurologicalStatus,
+    MentalStatus,
+)
 
 
 class Patient(models.Model):
@@ -43,7 +48,6 @@ class PatientInfo(models.Model):
     departament = models.IntegerField()
     number_of_days = models.IntegerField()
     blood_type = models.CharField(max_length=25)
-    # 1
     patient = models.ForeignKey(
         Patient,
         on_delete=models.CASCADE

@@ -205,7 +205,7 @@ class PatientRecordSerializer(serializers.ModelSerializer):
     somatic = SomaticStatusSerializer()
     neurological = NeurologicalStatusSerializer()
     mental = MentalStatusSerializer()
-    arrives = serializers.CharField(source='get_arrives_display', read_only=True)
+    # arrives = serializers.CharField(source='get_arrives_display')
 
     class Meta:
         model = PatientInfo
@@ -230,19 +230,19 @@ class PatientRecordSerializer(serializers.ModelSerializer):
         anamnesis_instance = AnamnesisDisease.objects.create(**anamnesis_data)
 
         for category_data in categories:
-            category, created = Category.objects.get_or_create(title=category_data['title'])
+            category = Category.objects.get(title=category_data['title'])
             anamnesis_instance.category.add(category)
 
         for tolerance_data in type_tolerances:
-            tolerance, created = TypeTolerance.objects.get_or_create(title=tolerance_data['title'])
+            tolerance = TypeTolerance.objects.get(title=tolerance_data['title'])
             anamnesis_instance.type_tolerance.add(tolerance)
 
         for intoxication_data in type_intoxications:
-            intoxication, created = TypeIntoxication.objects.get_or_create(title=intoxication_data['title'])
+            intoxication = TypeIntoxication.objects.get(title=intoxication_data['title'])
             anamnesis_instance.type_intoxication.add(intoxication)
 
         for palimpsest_data in type_palimpsests:
-            palimpsest, created = TypePalimpsests.objects.get_or_create(title=palimpsest_data['title'])
+            palimpsest = TypePalimpsests.objects.get(title=palimpsest_data['title'])
             anamnesis_instance.type_palimpsests.add(palimpsest)
 
         somatic_instance = SomaticStatus.objects.create(**somatic_data)
