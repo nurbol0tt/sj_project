@@ -19,7 +19,7 @@ from src.apps.patient.models.comment_models import (
 from src.apps.patient.serializers import (
     ContentSerializer,
     PhotoSerializer,
-    PhotoListSerializer,
+    PhotoListSerializer, PsychologicalContentSerializer,
 )
 
 
@@ -64,10 +64,11 @@ class PsychologicalConsultationViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
     @action(detail=True, methods=['POST'],)
-    @swagger_auto_schema(request_body=ContentSerializer)
+    @swagger_auto_schema(request_body=PsychologicalContentSerializer)
     def psychology(self, request, pk=None) -> Response:
         patient = get_object_or_404(Patient, id=pk)
-        serializer = ContentSerializer(data=request.data)
+        print(patient)
+        serializer = PsychologicalContentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -75,18 +76,19 @@ class PsychologicalConsultationViewSet(ViewSet):
     @action(detail=True, methods=['get'], )
     def lists(self, request, pk=None) -> Response:
         queryset = PsychologicalConsultation.objects.filter(patient_id=pk)
-        serializer = ContentSerializer(queryset, many=True)
+        print(queryset)
+        serializer = PsychologicalContentSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None) -> Response:
         diary = get_object_or_404(PsychologicalConsultation, id=pk)
-        serializer = ContentSerializer(diary)
+        serializer = PsychologicalContentSerializer(diary)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(request_body=ContentSerializer)
     def partial_update(self, request, pk=None) -> Response:
         patient = get_object_or_404(PsychologicalConsultation, id=pk)
-        serializer = ContentSerializer(
+        serializer = PsychologicalContentSerializer(
             patient, data=request.data, partial=True
         )
         serializer.is_valid(raise_exception=True)

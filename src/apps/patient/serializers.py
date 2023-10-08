@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models.comment_models import Diary, Photo
+from .models.comment_models import Diary, Photo, PsychologicalConsultation
 from .models.patient_models import Patient, PatientInfo
 from django.db.models import Model
 
@@ -279,6 +279,15 @@ class ContentSerializer(serializers.ModelSerializer):
         model = Diary
         fields = (
             'id', 'content',
+        )
+
+
+class PsychologicalContentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PsychologicalConsultation
+        fields = (
+            'id', 'content'
         )
 
 
