@@ -26,7 +26,7 @@ class EpicrisisViewSet(ViewSet):  # noqa
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @action(detail=True, methods=['POST'],)
+    @action(detail=True, methods=['GET'],)
     def lists(self, request, pk=None):
         epicrisis = Epicrisis.objects.filter(patient_id=pk)  # noqa
         serializer = EpicrisisSerializerList(epicrisis, many=True)
