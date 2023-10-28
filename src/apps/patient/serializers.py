@@ -293,11 +293,12 @@ class PsychologicalContentSerializer(serializers.ModelSerializer):
 
 
 class PhotoSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Photo
         fields = (
-            'file',
+            'file', 'user'
         )
 
 

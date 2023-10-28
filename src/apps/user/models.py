@@ -12,7 +12,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('3', 'Психолог'),
         ('4', 'Мед-Сестра'),
     )
-
     name = models.CharField(max_length=150, blank=True,)
     surname = models.CharField(max_length=150, blank=True,)
     phone = models.CharField(max_length=30, blank=True, null=True, unique=True,)

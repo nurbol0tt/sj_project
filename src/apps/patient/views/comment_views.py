@@ -108,7 +108,7 @@ class FileViewSet(ViewSet):
     @swagger_auto_schema(request_body=PhotoSerializer)
     def file(self, request, pk=None) -> Response:
         patient = get_object_or_404(Patient, id=pk)
-        serializer = PhotoSerializer(data=request.data)
+        serializer = PhotoSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -131,7 +131,10 @@ class FileViewSet(ViewSet):
 
     @action(detail=True, methods=['get'],)
     def all_photo(self, request, pk=None) -> Response:
-        queryset = Photo.objects.filter(patient_id=pk)
+        queryset = (
+            Photo.objects.filter(patient_id=pk)
+            .filter(user__role=request.user.role)
+        )
         serializer = PhotoListSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
