@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models.comment_models import Diary, Photo, PsychologicalConsultation
+from .models.emcrisis_models import Epicrisis
 from .models.patient_models import Patient, PatientInfo
 from django.db.models import Model
 
@@ -312,3 +313,36 @@ class PhotoListSerializer(serializers.ModelSerializer):
     def get_file(self, obj):
         if obj.file:
             return settings.PHOTO_URL + obj.file.url
+
+
+class EpicrisisSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Epicrisis
+        fields = (
+            'start_treatment', 'end_treatment', 'main_diagnosis',
+            'concomitant', 'complications', 'laboratory_tests',
+            'instrumental_studies', 'ecg', 'x_ray', 'specialist_consultations',
+            'treatment', 'treatment_results', 'recommendations'
+        )
+
+
+class EpicrisisDetailSerializer(serializers.ModelSerializer):
+    treatment_results = serializers.CharField(source='get_treatment_results_display', read_only=True)
+
+    class Meta:
+        model = Epicrisis
+        fields = (
+            'id', 'start_treatment', 'end_treatment', 'main_diagnosis',
+            'concomitant', 'complications', 'laboratory_tests',
+            'instrumental_studies', 'ecg', 'x_ray', 'specialist_consultations',
+            'treatment', 'treatment_results', 'recommendations'
+        )
+
+class EpicrisisSerializerList(serializers.ModelSerializer): # noqa
+
+    class Meta:
+        model = Epicrisis
+        fields = (
+            'id', 'start_treatment', 'end_treatment', 'concomitant',
+        )

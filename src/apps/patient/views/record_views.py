@@ -123,3 +123,4 @@ class MonthlyIncomeView(APIView):
                 monthly_incomes[f"{year}-{month:02d}"] = total_income
 
         return Response(monthly_incomes)
+

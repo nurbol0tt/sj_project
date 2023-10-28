@@ -9,6 +9,7 @@ from src.apps.patient.views.comment_views import (
     PsychologicalConsultationViewSet,
     FileViewSet,
 )
+from src.apps.patient.views.epicrisis_views import EpicrisisViewSet
 from src.apps.user import views
 from src.apps.patient.views.patient_views import (
     PatientViewSet,
@@ -26,6 +27,7 @@ router.register(r'records', PatientRecordViewSet, basename='record')
 router.register(r'diaries', DiaryViewSet, basename='diary')
 router.register(r'psychology', PsychologicalConsultationViewSet, basename='psychology')
 router.register(r'files', FileViewSet, basename='file')
+router.register(r'epicrisis', EpicrisisViewSet, basename='file')
 
 urlpatterns = [
     path('', include(router.urls)),

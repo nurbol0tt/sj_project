@@ -67,7 +67,6 @@ class PsychologicalConsultationViewSet(ViewSet):
     @swagger_auto_schema(request_body=PsychologicalContentSerializer)
     def psychology(self, request, pk=None) -> Response:
         patient = get_object_or_404(Patient, id=pk)
-        print(patient)
         serializer = PsychologicalContentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(patient=patient)
