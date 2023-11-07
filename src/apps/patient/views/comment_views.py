@@ -26,7 +26,7 @@ from src.apps.patient.serializers import (
 class DiaryViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
-    @action(detail=True, methods=['POST'],)  # url_path='create-diary-entry'
+    @action(detail=True, methods=['POST'],)
     @swagger_auto_schema(request_body=ContentSerializer)
     def diary_entry(self, request, pk=None) -> Response:
         patient = get_object_or_404(Patient, id=pk)

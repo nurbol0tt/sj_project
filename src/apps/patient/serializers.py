@@ -49,7 +49,7 @@ class PatientCreateSerializer(serializers.ModelSerializer):
         return patient
 
     def update(self, instance: Model, validated_data):
-        anamnesis_life_data = validated_data.pop('anamnesis_life')
+        anamnesis_life_data = validated_data.pop('anamnesis_life', {})
         anamnesis_life_instance = instance.anamnesis_life
 
         # Update main instance fields
@@ -329,7 +329,6 @@ class EpicrisisSerializer(serializers.ModelSerializer):
 
 
 class EpicrisisDetailSerializer(serializers.ModelSerializer):
-    treatment_results = serializers.CharField(source='get_treatment_results_display', read_only=True)
 
     class Meta:
         model = Epicrisis

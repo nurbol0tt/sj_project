@@ -46,7 +46,7 @@ class PatientViewSet(ViewSet):
     def list(self, request):
         # Handle GET request to list all instances
         search_query = request.query_params.get('search', None)
-        queryset = Patient.objects.all()
+        queryset = Patient.objects.all().order_by('-updated_at')
 
         if search_query:
             keywords = search_query.split()

@@ -14,6 +14,7 @@ class Patient(models.Model):
     date_of_birth = models.DateField(max_length=255)
     avatar = models.FileField(default='./default_png.jpg')
     in_hospital = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.name
