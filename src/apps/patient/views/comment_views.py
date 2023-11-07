@@ -73,9 +73,8 @@ class PsychologicalConsultationViewSet(ViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['get'], )
-    def lists(self, request, pk=None) -> Response:
+    def lists(self, pk=None) -> Response:
         queryset = PsychologicalConsultation.objects.filter(patient_id=pk)
-        print(queryset)
         serializer = PsychologicalContentSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

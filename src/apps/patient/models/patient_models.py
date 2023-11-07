@@ -51,7 +51,8 @@ class PatientInfo(models.Model):
     blood_type = models.CharField(max_length=25)
     patient = models.ForeignKey(
         Patient,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='patient_info'
     )
     anamnesis = models.ForeignKey(
         AnamnesisDisease,

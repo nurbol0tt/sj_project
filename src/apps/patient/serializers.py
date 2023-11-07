@@ -346,3 +346,29 @@ class EpicrisisSerializerList(serializers.ModelSerializer): # noqa
         fields = (
             'id', 'start_treatment', 'end_treatment', 'concomitant',
         )
+
+
+class PatientInfoIncomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientInfo
+        fields = ('id', 'price', 'date_of_admission', 'date_of_discharge')
+
+
+class PatientSerializer(serializers.ModelSerializer):
+    patient_info = PatientInfoIncomeSerializer(many=True, read_only=True, source='patient_info.all')
+
+    class Meta:
+        model = Patient
+        fields = (
+            'id', 'name', 'surname',
+            'patronymic', 'date_of_birth',
+            'in_hospital', 'updated_at', 'patient_info'
+        )
+
+    def get_patient_profit(self, patient):
+        return sum(info.price for info in patient.patient_info.all())
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['total_profit'] = self.get_patient_profit(instance)
+        return data

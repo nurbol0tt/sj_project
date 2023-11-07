@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from django.db.models import Sum
+from django.http import JsonResponse
 
 
 from drf_yasg.utils import swagger_auto_schema
@@ -27,7 +28,7 @@ from ..serializers import (
     SomaticStatusSerializer,
     NeurologicalStatusSerializer,
     MentalStatusSerializer,
-    PatientPatchSerializer,
+    PatientPatchSerializer, PatientSerializer,
 )
 
 
@@ -95,10 +96,10 @@ class PatientRecordViewSet(ViewSet):
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-class MonthlyIncomeView(APIView):
+class MonthlyIncomeViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request):
+    def list(self, request):
         current_year = datetime.now().year
 
         # Initialize a dictionary to store monthly incomes
@@ -124,3 +125,11 @@ class MonthlyIncomeView(APIView):
 
         return Response(monthly_incomes)
 
+    @action(detail=False, methods=['get'])
+    def lists(self, request) -> Response:
+        patients = Patient.objects.all()
+        serializer = PatientSerializer(patients, many=True)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None) -> Response:
+        ...
