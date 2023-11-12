@@ -1,4 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
+
+from rest_framework.viewsets import ViewSet
+from rest_framework.generics import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -6,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from src.apps.user.models import User
-from src.apps.user.serializers import UserRegisterSerializer, UserSerializer
+from src.apps.user.serializers import UserRegisterSerializer, UserSerializer, UserPatchSerializer
 
 
 class RegisterView(APIView):
@@ -48,12 +51,25 @@ class Profile(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserLisView(APIView):
+class StaffViewSet(ViewSet):
 
-    def get(self, request) -> Response:
+    def list(self, request) -> Response:
         user = User.objects.all().only('name', 'surname', 'phone')
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=UserPatchSerializer)
+    def partial_update(self, request, pk):
+        patient = get_object_or_404(User, id=pk)
+        serializer = UserPatchSerializer(patient, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def destroy(self, request, pk=None) -> Response:
+        patient = get_object_or_404(User, id=pk)
+        patient.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RoleListView(APIView):

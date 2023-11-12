@@ -19,7 +19,8 @@ from src.apps.patient.models.comment_models import (
 from src.apps.patient.serializers import (
     ContentSerializer,
     PhotoSerializer,
-    PhotoListSerializer, PsychologicalContentSerializer,
+    PhotoListSerializer,
+    PsychologicalContentSerializer,
 )
 
 

@@ -20,6 +20,7 @@ from src.apps.patient.views.record_views import (
     MonthlyIncomeViewSet,
 
 )
+from src.apps.user.views import StaffViewSet
 
 router = DefaultRouter()
 router.register(r'patients', PatientViewSet, basename='patient')
@@ -30,6 +31,7 @@ router.register(r'psychology', PsychologicalConsultationViewSet, basename='psych
 router.register(r'files', FileViewSet, basename='file')
 router.register(r'epicrisis', EpicrisisViewSet, basename='file')
 router.register(r'income', MonthlyIncomeViewSet, basename='file')
+router.register(r'staffs', StaffViewSet, basename='file')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -38,6 +40,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view()),
     path('login/', views.LoginView.as_view()),
     path('roles/', views.RoleListView.as_view()),
-    path('me/', views.Profile.as_view()),
-    path('staffs/', views.UserLisView.as_view()),
+    path('me/', views.Profile.as_view())
 ]
