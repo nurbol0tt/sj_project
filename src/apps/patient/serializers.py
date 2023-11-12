@@ -86,7 +86,7 @@ class PatientInfoSerializer(serializers.ModelSerializer):
 class PatientDetailSerializer(serializers.ModelSerializer):
     anamnesis = AnamnesisLifeSerializers(source='anamnesis_life')
     patient_info = PatientInfoSerializer(
-        many=True, read_only=True, source='patientinfo_set',
+        many=True, read_only=True
     )
     patient_info_count = serializers.SerializerMethodField()
     avatar = serializers.SerializerMethodField()
@@ -104,7 +104,7 @@ class PatientDetailSerializer(serializers.ModelSerializer):
             return settings.PHOTO_URL + obj.avatar.url
 
     def get_patient_info_count(self, obj):
-        return obj.patientinfo_set.count()
+        return obj.patient_info.count()
 
 
 class SomaticStatusSerializer(serializers.ModelSerializer):
