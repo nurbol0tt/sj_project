@@ -146,7 +146,7 @@ class StatusListView(ViewSet):
         return Response(status_list, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['GET'])
-    def conjunctiva_list(self) -> Response:
+    def conjunctiva_list(self, request) -> Response:
         queryset = SomaticStatus.TRACES_STATUS_CHOICES
         status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
