@@ -6,9 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.views import APIView
 from django.db.models import Sum
-from django.http import JsonResponse
 
 
 from drf_yasg.utils import swagger_auto_schema
@@ -45,7 +43,7 @@ class PatientRecordViewSet(ViewSet):
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, pk=None):
         # Handle GET request to retrieve a single instance
         record = PatientInfo.objects.filter(patient_id=pk)
         serializer = PatientRecordSerializer(record, many=True)
@@ -97,7 +95,7 @@ class PatientRecordViewSet(ViewSet):
 
 
 class MonthlyIncomeViewSet(ViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def list(self, request):
         current_year = datetime.now().year
@@ -130,6 +128,3 @@ class MonthlyIncomeViewSet(ViewSet):
         patients = Patient.objects.all()
         serializer = PatientSerializer(patients, many=True)
         return Response(serializer.data)
-
-    def destroy(self, request, pk=None) -> Response:
-        ...
