@@ -92,7 +92,7 @@ class PatientViewSet(ViewSet):
 class StatusListView(ViewSet):
 
     @action(detail=False, methods=['GET'])
-    def education_list(self) -> Response:
+    def education_list(self, request) -> Response:
         queryset = AnamnesisLife.EDUCATIONS_STATUS_CHOICES
         status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
