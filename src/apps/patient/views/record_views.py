@@ -43,7 +43,7 @@ class PatientRecordViewSet(ViewSet):
         serializer.save(patient=patient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, pk=None):
+    def retrieve(self, request, pk=None):
         # Handle GET request to retrieve a single instance
         record = PatientInfo.objects.filter(patient_id=pk)
         serializer = PatientRecordSerializer(record, many=True)
