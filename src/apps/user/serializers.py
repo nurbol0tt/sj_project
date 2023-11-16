@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("name", "surname", "phone", "role")
+        fields = ("id", "name", "surname", "phone", "role")
 
 
 class UserPatchSerializer(serializers.ModelSerializer):
