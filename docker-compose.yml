@@ -35,7 +35,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: celery -A sj_project worker --loglevel=info --beat
+    command: celery -A src worker --loglevel=info --beat
     volumes:
       - .:/usr/src/OracleDigital
     depends_on:

@@ -206,7 +206,6 @@ class PatientRecordSerializer(serializers.ModelSerializer):
     somatic = SomaticStatusSerializer()
     neurological = NeurologicalStatusSerializer()
     mental = MentalStatusSerializer()
-    # arrives = serializers.CharField(source='get_arrives_display')
 
     class Meta:
         model = PatientInfo
