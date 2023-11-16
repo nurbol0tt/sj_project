@@ -11,6 +11,10 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+#      interval: 5s
+#      retries: 5
 
   sj_web:
     container_name: sj_web
@@ -19,13 +23,25 @@ services:
       dockerfile: Dockerfile
     command: bash -c "python /usr/src/sj_project/manage.py makemigrations &&
         python /usr/src/sj_project/manage.py migrate --noinput &&
-        python /usr/src/sj_project/manage.py runserver 0.0.0.0:8000 "
+        python /usr/src/sj_project/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/usr/src/sj_project
     ports:
       - "8000:8000"
     depends_on:
       - sj_db
+
+  oracle_worker:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: celery -A sj_project worker --loglevel=info --beat
+    volumes:
+      - .:/usr/src/OracleDigital
+    depends_on:
+      - sj_db
+    links:
+      - redis
 
   redis:
     container_name: redis
