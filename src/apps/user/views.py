@@ -54,7 +54,7 @@ class Profile(APIView):
 class StaffViewSet(ViewSet):
 
     def list(self, request) -> Response:
-        user = User.objects.all().only('name', 'surname', 'phone')
+        user = User.objects.all().only('id', 'name', 'surname', 'phone')
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
