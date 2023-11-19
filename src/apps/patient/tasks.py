@@ -5,15 +5,24 @@ from .models.patient_models import PatientInfo
 
 @shared_task
 def update_patient_status():
-    # Query PatientInfo objects and update associated Patient objects
-    latest_patient_info_list = (
+    patient_status_true = (
         PatientInfo.objects.filter(
         date_of_discharge__gte=timezone.now()
         ).order_by('patient', '-date_of_discharge')
         .distinct('patient')
         )
-    print(latest_patient_info_list)
 
-    for latest_patient_info in latest_patient_info_list:
-        latest_patient_info.patient.in_hospital = True
-        latest_patient_info.patient.save()
+    patient_status_false = (
+        PatientInfo.objects.filter(
+            date_of_discharge__lte=timezone.now()
+        ).order_by('patient', '-date_of_discharge')
+        .distinct('patient')
+    )
+
+    for patient_info_true in patient_status_true:
+        patient_info_true.patient.in_hospital = True
+        patient_info_true.patient.save()
+
+    for patient_info_false in patient_status_false:
+        patient_info_false.patient.in_hospital = False
+        patient_info_false.patient.save()
