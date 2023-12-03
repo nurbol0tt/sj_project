@@ -39,7 +39,8 @@ class PatientInfo(models.Model):
         choices=STATUS_CHOICES_ARRIVES
     )
     conditions = models.CharField(
-        max_length=125
+        max_length=125, 
+        choices=STATUS_CHOICES_CONDITIONS
     )
     price = models.IntegerField()
     escorts = models.CharField(max_length=125)

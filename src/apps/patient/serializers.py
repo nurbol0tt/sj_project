@@ -191,6 +191,122 @@ class PatientRecordSerializer(serializers.ModelSerializer):
         return patient_info
 
 
+class AnamnesisRetrieveDiseaseSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = AnamnesisDisease
+        fields = (
+            'id', 'receiving_something', 'receiving_something_time', 'somatic_disorders',
+            'mental_disorders', 'category', 'type_tolerance', 'type_intoxication',
+            'type_palimpsests', 'daily_tolerance', 'binge_drinking', 'light_gaps',
+            'duration_last_binge', 'duration_last_remission', 'last_treatment',
+            'last_alcohol_intake', 'dose', 'addition'
+        )
+
+
+class SomaticRetrieveStatusSerializer(serializers.ModelSerializer):
+    condition = serializers.CharField(
+        source='get_condition_display', 
+        read_only=True,
+    )
+    category = serializers.CharField(
+        source='get_category_display', 
+        read_only=True,
+    )
+    skin_type = serializers.CharField(
+        source='get_skin_type_display', 
+        read_only=True,
+    )
+    availability = serializers.CharField(
+        source='get_availability_display', 
+        read_only=True,
+    )
+    traces = serializers.CharField(
+        source='get_traces_display', 
+        read_only=True,
+    )
+    state_conjunctiva = serializers.CharField(
+        source='get_state_conjunctiva_display', 
+        read_only=True,
+    )
+
+    wheezing = serializers.CharField(
+        source='get_wheezing_display', 
+        read_only=True,
+    )
+    heart_tones = serializers.CharField(
+        source='get_heart_tones_display', 
+        read_only=True,
+    )
+    filling = serializers.CharField(
+        source='get_filling_display', 
+        read_only=True,
+    )
+
+
+    class Meta:
+        model = SomaticStatus
+        fields = (
+            'id', 'condition', 'category', 'skin_type', 'availability',
+            'traces', 'state_conjunctiva', 'breath', 'wheezing', 'bh',
+            'saturation', 'heart_tones', 'ad', 'pulse_frequency',
+            'filling', 'tongue', 'stomach', 'liver', 'vomiting', 'stool',
+            'diuresis', 'edema', 'glucose', 'apparatus', 'vascular_system',
+            'supplements',
+        )
+
+
+class NeurologicalRetrieveStatusSerializer(serializers.ModelSerializer):
+    pupils = serializers.CharField(
+        source='get_pupils_display', 
+        read_only=True
+    )
+    meningeal_signs = serializers.CharField(
+        source='get_meningeal_signs_display', 
+        read_only=True
+    )
+
+    class Meta:
+        model = NeurologicalStatus
+        fields = (
+            'id', 'pupils', 'photo_reaction',
+            'meningeal_signs', 'seizures', 'dysarthria'
+        )
+
+
+class MentalRetrieveStatusSerializer(serializers.ModelSerializer):
+    view = serializers.CharField(
+        source='get_view_display', 
+        read_only=True
+    )
+    class Meta:
+        model = MentalStatus
+        fields = (
+            'id', 'view', 'smell_of_alcohol', 'behavior',
+            'consciousness', 'orientation', 'perception_disorders',
+            'emotional_background', 'night_sleep', 'suicide_attempt',
+            'causes_of_alcohol', 'purpose_of_hospitalization'
+        )
+
+
+class PatienRetrieveSerializer(serializers.ModelSerializer):
+    anamnesis = AnamnesisRetrieveDiseaseSerializer()
+    somatic = SomaticRetrieveStatusSerializer()
+    neurological = NeurologicalRetrieveStatusSerializer()
+    mental = MentalRetrieveStatusSerializer()
+    
+    arrives = serializers.CharField(source='get_arrives_display', read_only=True)
+
+    class Meta:
+        model = PatientInfo
+        fields = (
+            'id', 'arrives', 'price', 'conditions', 'escorts', 'escorts',
+            'complaints', 'date_of_admission', 'date_of_discharge',
+            'departament', 'number_of_days', 'blood_type',
+            'anamnesis', 'somatic', 'neurological', 'mental'
+        )
+
+
 class PatientPatchSerializer(serializers.ModelSerializer):
 
     class Meta:

@@ -26,7 +26,9 @@ from ..serializers import (
     SomaticStatusSerializer,
     NeurologicalStatusSerializer,
     MentalStatusSerializer,
-    PatientPatchSerializer, PatientSerializer,
+    PatientPatchSerializer, 
+    PatientSerializer,
+    PatienRetrieveSerializer
 )
 
 
@@ -46,7 +48,7 @@ class PatientRecordViewSet(ViewSet):
     def retrieve(self, request, pk=None):
         # Handle GET request to retrieve a single instance
         record = PatientInfo.objects.filter(patient_id=pk)
-        serializer = PatientRecordSerializer(record, many=True)
+        serializer = PatienRetrieveSerializer(record, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(request_body=PatientPatchSerializer)
