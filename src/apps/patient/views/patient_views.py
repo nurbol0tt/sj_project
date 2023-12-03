@@ -12,10 +12,6 @@ from drf_yasg.utils import swagger_auto_schema
 from src.apps.patient.models.patient_models import Patient, PatientInfo
 from src.apps.patient.models.info_models import (
     AnamnesisLife,
-    Category,
-    TypeIntoxication,
-    TypeTolerance,
-    TypePalimpsests,
     SomaticStatus,
     NeurologicalStatus,
     MentalStatus,
@@ -23,10 +19,6 @@ from src.apps.patient.models.info_models import (
 from ..serializers import (
     PatientCreateSerializer,
     PatientListSerializer,
-    CategoryListSerializer,
-    TypeIntoxicationSerializer,
-    TypeToleranceSerializer,
-    TypePalimpsestsSerializer,
     PatientDetailSerializer,
 )
 from ..service import CustomPagination
@@ -180,27 +172,3 @@ class StatusListView(ViewSet):
         queryset = MentalStatus.VIEW_STATUS_CHOICES
         status_list = [{'id': role[0], 'title': role[1]} for role in queryset]
         return Response(status_list, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['GET'])
-    def category_list(self, request) -> Response:
-        queryset = Category.objects.all()
-        serializer = CategoryListSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['GET'])
-    def intoxication_list(self, request) -> Response:
-        queryset = TypeIntoxication.objects.all()
-        serializer = TypeIntoxicationSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['GET'])
-    def tolerance_list(self, request) -> Response:
-        queryset = TypeTolerance.objects.all()
-        serializer = TypeToleranceSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['GET'])
-    def palimpsests_list(self, request) -> Response:
-        queryset = TypePalimpsests.objects.all()
-        serializer = TypePalimpsestsSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)

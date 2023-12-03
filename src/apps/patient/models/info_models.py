@@ -39,34 +39,6 @@ class AnamnesisLife(models.Model):
     
     def __str__(self) -> str:
         return self.patient
-    
-    
-class Category(models.Model):
-    title = models.CharField(max_length=125)
-
-    def __str__(self) -> str:
-        return self.title
-
-
-class TypeIntoxication(models.Model):
-    title = models.CharField(max_length=125)
-
-    def __str__(self) -> str:
-        return self.title
-
-
-class TypeTolerance(models.Model):
-    title = models.CharField(max_length=125)
-
-    def __str__(self) -> str:
-        return self.title
-
-
-class TypePalimpsests(models.Model):
-    title = models.CharField(max_length=125)
-
-    def __str__(self) -> str:
-        return self.title
 
 
 class AnamnesisDisease(models.Model):
@@ -74,12 +46,6 @@ class AnamnesisDisease(models.Model):
     receiving_something_time = models.DateField(max_length=255)
     somatic_disorders = models.CharField(max_length=255)
     mental_disorders = models.CharField(max_length=255)
-    #
-    category = models.ManyToManyField(Category)
-    type_tolerance = models.ManyToManyField(TypeTolerance)
-    type_intoxication = models.ManyToManyField(TypeIntoxication)
-    type_palimpsests = models.ManyToManyField(TypePalimpsests)
-    #
     daily_tolerance = models.FloatField()
     binge_drinking = models.CharField(max_length=25)
     light_gaps = models.CharField(max_length=25)
@@ -92,7 +58,11 @@ class AnamnesisDisease(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
-    
+    category = models.CharField(max_length=255)
+    type_tolerance = models.CharField(max_length=255)
+    type_intoxication = models.CharField(max_length=255)
+    type_palimpsests = models.CharField(max_length=255)
+
 
 class SomaticStatus(models.Model):
     CONDITION_STATUS_CHOICES = (
