@@ -70,7 +70,7 @@ class PatientListSerializer(serializers.ModelSerializer):
 
     def get_avatar(self, obj):
         if obj.avatar:
-            return "http://139.59.132.105" + obj.avatar.url
+            return "http://139.59.132.105/api/" + obj.avatar.url
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
