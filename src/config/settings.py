@@ -128,13 +128,13 @@ USE_TZ = True
 
 MEDIA_URL_DIR = os.path.dirname(BASE_DIR)
 
-STATIC_URL = "/static/"
+STATIC_URL = "/api/static/"
 STATIC_ROOT = (
     join(BASE_DIR.parent, 'static')
 )
 # os.path.join(BASE_DIR, '..', 'media')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'api/media/'
 MEDIA_DIR = join('BASE_DIR', 'media')
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 
