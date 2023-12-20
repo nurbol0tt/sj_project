@@ -4,10 +4,10 @@ from django.urls import path, include
 from .yasg_router import urlpatterns as yasg
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
-    path("__debug__/", include("debug_toolbar.urls")),
+    path('/api/admin/', admin.site.urls),
+    path('/api/jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    path('/api/jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+    path("/api/__debug__/", include("debug_toolbar.urls")),
 
     path('api/v1/', include('src.routers.urls')),
 ]
