@@ -243,7 +243,6 @@ class SomaticRetrieveStatusSerializer(serializers.ModelSerializer):
         read_only=True,
     )
 
-
     class Meta:
         model = SomaticStatus
         fields = (
@@ -296,6 +295,7 @@ class PatienRetrieveSerializer(serializers.ModelSerializer):
     mental = MentalRetrieveStatusSerializer()
     
     arrives = serializers.CharField(source='get_arrives_display', read_only=True)
+    conditions = serializers.CharField(source='get_conditions_display', read_only=True)
 
     class Meta:
         model = PatientInfo
