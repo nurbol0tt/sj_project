@@ -132,7 +132,6 @@ STATIC_URL = "/api/static/"
 STATIC_ROOT = (
     join(BASE_DIR.parent, 'static')
 )
-# os.path.join(BASE_DIR, '..', 'media')
 
 MEDIA_URL = 'media/'
 MEDIA_DIR = join('BASE_DIR', 'media')
@@ -204,13 +203,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://139.59.132.105:3000"
+    "http://139.59.132.105:3000",
+    "https://sj-crm.kg/",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000/',
     'http://127.0.0.1:3000/',
-    "http://139.59.132.105:3000"
+    "http://139.59.132.105:3000",
+    "https://sj-crm.kg/",
 ]
 
 CORS_ALLOW_METHODS = [
