@@ -69,7 +69,7 @@ class PatientListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'surname', 'patronymic', 'avatar', 'in_hospital')
 
     def get_avatar(self, obj):
-            return "http://127.0.0.1:8000" + obj.avatar.url
+            return "https://sj-crm.kg" + obj.avatar.url
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
