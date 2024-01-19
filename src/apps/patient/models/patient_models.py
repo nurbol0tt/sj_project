@@ -12,7 +12,7 @@ class Patient(models.Model):
     surname = models.CharField(max_length=150, blank=True,)
     patronymic = models.CharField(max_length=150, blank=True,)
     date_of_birth = models.DateField(max_length=255)
-    avatar = models.FileField(default='./default_png.jpg')
+    avatar = models.FileField(default='api/media/default_png.jpg')
     in_hospital = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
 

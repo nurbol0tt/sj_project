@@ -133,9 +133,9 @@ STATIC_ROOT = (
     join(BASE_DIR.parent, 'static')
 )
 
-MEDIA_URL = 'media/'
-MEDIA_DIR = join('BASE_DIR', 'media')
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+MEDIA_URL = '/api/media/'
+MEDIA_DIR = join('BASE_DIR', 'api/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'api/media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

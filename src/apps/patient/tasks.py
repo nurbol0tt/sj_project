@@ -28,5 +28,6 @@ def update_patient_status():
         patient_info_instance.patient.save()
 
     for patient_info_false in patient_status_false:
-        patient_info_false.patient.in_hospital = False
-        patient_info_false.patient.save()
+        patient_info_instance = PatientInfo.objects.get(pk=patient_info_false['patient'])
+        patient_info_instance.patient.in_hospital = False
+        patient_info_instance.patient.save()
