@@ -14,20 +14,14 @@ def update_patient_status():
             )
         )
     )
-
-    patient_status_false = (
-        PatientInfo.objects.filter(
-            date_of_discharge__lte=timezone.now()
-        ).order_by('patient', '-date_of_discharge')
-        .distinct('patient')
-    )
+    current_datetime = timezone.now()
 
     for patient_info_true in latest_discharge_dates:
         patient_info_instance = PatientInfo.objects.get(pk=patient_info_true['patient'])
-        patient_info_instance.patient.in_hospital = True
-        patient_info_instance.patient.save()
 
-    for patient_info_false in patient_status_false:
-        patient_info_instance = PatientInfo.objects.get(pk=patient_info_false['patient'])
-        patient_info_instance.patient.in_hospital = False
+        if patient_info_instance.date_of_discharge and patient_info_instance.date_of_discharge < current_datetime:
+            patient_info_instance.patient.in_hospital = False
+        else:
+            patient_info_instance.patient.in_hospital = True
+
         patient_info_instance.patient.save()
