@@ -42,7 +42,7 @@ class AnamnesisPatchSerializers(serializers.ModelSerializer):
 
 
 class PatientCreateSerializer(serializers.ModelSerializer):
-    anamnesis_life = AnamnesisLifeSerializers()
+    anamnesis_life = AnamnesisPatchSerializers()
     
     class Meta:
         model = Patient
