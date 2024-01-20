@@ -6,7 +6,8 @@ from src.apps.patient.models.patient_models import Patient, PatientInfo
 from src.apps.patient.models.info_models import (
     SomaticStatus,
     MentalStatus,
-    AnamnesisDisease
+    AnamnesisDisease,
+    AnamnesisLife
 )
 
 # Register your models here.
