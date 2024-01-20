@@ -20,12 +20,13 @@ from ..serializers import (
     PatientCreateSerializer,
     PatientListSerializer,
     PatientDetailSerializer,
+    PatientDetailPatchSerializer,
 )
 from ..service import CustomPagination
 
 
 class PatientViewSet(ViewSet):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(request_body=PatientCreateSerializer)
     def create(self, request):
@@ -65,11 +66,11 @@ class PatientViewSet(ViewSet):
         serializer = PatientDetailSerializer(patient, context={'request': request})
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
-    @swagger_auto_schema(request_body=PatientCreateSerializer)
+    @swagger_auto_schema(request_body=PatientDetailPatchSerializer)
     def partial_update(self, request, pk=None):
         # Handle PATCH request to partially update an instance
         patient = get_object_or_404(Patient, id=pk)
-        serializer = PatientCreateSerializer(patient, data=request.data, partial=True)
+        serializer = PatientDetailPatchSerializer(patient, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

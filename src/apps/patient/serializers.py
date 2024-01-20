@@ -28,6 +28,19 @@ class AnamnesisLifeSerializers(serializers.ModelSerializer):
         )
 
 
+class AnamnesisPatchSerializers(serializers.ModelSerializer):
+    education = serializers.CharField()
+    martial_status = serializers.CharField()
+
+    class Meta:
+        model = AnamnesisLife
+        fields = (
+            'education', 'martial_status', 'place_work',
+            'criminal_record', 'previous_illnesses', 'medications',
+            'allergic_history',
+        )
+
+
 class PatientCreateSerializer(serializers.ModelSerializer):
     anamnesis_life = AnamnesisLifeSerializers()
     
@@ -43,6 +56,17 @@ class PatientCreateSerializer(serializers.ModelSerializer):
         patient = Patient.objects.create(**validated_data)
         AnamnesisLife.objects.create(patient=patient, **anamnesis_life_data)
         return patient
+
+
+class PatientDetailPatchSerializer(serializers.ModelSerializer):
+    anamnesis_life = AnamnesisPatchSerializers()
+
+    class Meta:
+        model = Patient
+        fields = (
+            'name', 'surname', 'patronymic',
+            'date_of_birth', 'anamnesis_life'
+        )
 
     def update(self, instance: Model, validated_data):
         anamnesis_life_data = validated_data.pop('anamnesis_life', {})

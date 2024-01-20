@@ -1,6 +1,3 @@
-from typing import Type, Tuple
-
-from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +13,7 @@ from src.apps.patient.serializers import EpicrisisSerializer, EpicrisisSerialize
 
 
 class EpicrisisViewSet(ViewSet):  # noqa
+    permission_classes = (IsAuthenticated,)
 
     @action(detail=True, methods=['POST'],)
     @swagger_auto_schema(request_body=EpicrisisSerializer)
