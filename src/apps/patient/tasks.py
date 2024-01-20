@@ -15,13 +15,12 @@ def update_patient_status():
             )
         )
     )
-    current_datetime = timezone.now()
 
     for patient_info_true in latest_discharge_dates:
         try:
             patient_info_instance = PatientInfo.objects.get(pk=patient_info_true['patient'])
 
-            if patient_info_instance.date_of_discharge and patient_info_instance.date_of_discharge < current_datetime:
+            if patient_info_instance.date_of_discharge < timezone.now():
                 patient_info_instance.patient.in_hospital = False
             else:
                 patient_info_instance.patient.in_hospital = True
