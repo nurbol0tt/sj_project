@@ -36,9 +36,6 @@ class AnamnesisLife(models.Model):
         on_delete=models.CASCADE,
         related_name='anamnesis_life'
     )
-    
-    def __str__(self) -> str:
-        return self.patient
 
 
 class AnamnesisDisease(models.Model):
