@@ -97,7 +97,7 @@ class PatientRecordViewSet(ViewSet):
 
 
 class MonthlyIncomeViewSet(ViewSet):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def list(self, request):
         current_year = datetime.now().year
@@ -106,8 +106,8 @@ class MonthlyIncomeViewSet(ViewSet):
         monthly_incomes = {}
 
         # Iterate through the months starting from September of the current year
-        for year in range(2023, current_year + 1):  # Calculate for the current year and the next year
-            start_month = 9 if year == current_year else 1  # Start from September for the current year
+        for year in range(2022, current_year + 1):  # Calculate for the current year and the next year
+            start_month = 1 if year == current_year else 1  # Start from September for the current year
             end_month = 12 if year == current_year else 12  # End in December for both years
 
             for month in range(start_month, end_month + 1):
