@@ -15,7 +15,11 @@ def update_patient_status():
         )
     )
     for patient_info_true in latest_discharge_dates:
-        patient_info_instance = PatientInfo.objects.filter(patient=patient_info_true['patient']).first()
+        patient_info_instance = (
+            PatientInfo.objects
+            .filter(patient=patient_info_true['patient'])
+            .first()
+        )
         latest_patient_info = (
             PatientInfo.objects
             .filter(patient=patient_info_instance.patient)

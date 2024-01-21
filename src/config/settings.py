@@ -249,7 +249,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'update_patient_status': {
         'task': 'src.apps.patient.tasks.update_patient_status',
-        'schedule': timedelta(minutes=0.1),
+        'schedule': timedelta(hours=1),
     },
 }
 
