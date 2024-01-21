@@ -25,8 +25,10 @@ def update_patient_status():
                 .latest('date_of_discharge')
             )
             if latest_patient_info.date_of_discharge < timezone.now():
+                print("=============================")
                 latest_patient_info.patient.in_hospital = False
             else:
+                print("********************************")
                 latest_patient_info.patient.in_hospital = True
 
             latest_patient_info.patient.save()
