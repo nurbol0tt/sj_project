@@ -33,7 +33,7 @@ from ..serializers import (
 
 
 class PatientRecordViewSet(ViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     @action(detail=True, methods=['post'])
     @swagger_auto_schema(request_body=PatientRecordSerializer)
