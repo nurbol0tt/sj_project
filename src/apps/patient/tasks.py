@@ -15,23 +15,25 @@ def update_patient_status():
             )
         )
     )
-
+    print("1", latest_discharge_dates)
     for patient_info_true in latest_discharge_dates:
         try:
             patient_info_instance = PatientInfo.objects.get(pk=patient_info_true['patient'])
+            print("2", patient_info_instance)
             latest_patient_info = (
                 PatientInfo.objects
                 .filter(patient=patient_info_instance.patient)
                 .latest('date_of_discharge')
             )
-            if latest_patient_info.date_of_discharge < timezone.now():
+            print("3", latest_patient_info)
+            if patient_info_instance.date_of_discharge < timezone.now():
                 print("=============================")
-                latest_patient_info.patient.in_hospital = False
+                patient_info_instance.patient.in_hospital = False
             else:
                 print("********************************")
-                latest_patient_info.patient.in_hospital = True
+                patient_info_instance.patient.in_hospital = True
 
-            latest_patient_info.patient.save()
+            patient_info_instance.patient.save()
 
         except ObjectDoesNotExist:
             pass
