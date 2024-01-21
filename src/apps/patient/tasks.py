@@ -1,5 +1,4 @@
 from celery import shared_task
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
 from django.utils import timezone
 from .models.patient_models import PatientInfo
@@ -15,7 +14,6 @@ def update_patient_status():
             )
         )
     )
-    print("1", latest_discharge_dates)
     for patient_info_true in latest_discharge_dates:
         patient_info_instance = PatientInfo.objects.filter(patient=patient_info_true['patient']).first()
         latest_patient_info = (
@@ -23,12 +21,9 @@ def update_patient_status():
             .filter(patient=patient_info_instance.patient)
             .latest('date_of_discharge')
         )
-        print("3", latest_patient_info)
         if latest_patient_info.date_of_discharge < timezone.now():
-            print("=============================")
             latest_patient_info.patient.in_hospital = False
         else:
-            print("********************************")
             latest_patient_info.patient.in_hospital = True
 
         latest_patient_info.patient.save()
