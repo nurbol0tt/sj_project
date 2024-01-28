@@ -59,6 +59,11 @@ class PatientRecordViewSet(ViewSet):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        records = get_object_or_404(PatientInfo, id=pk)
+        records.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @action(detail=True, methods=['PATCH'])
     @swagger_auto_schema(request_body=AnamnesisDiseaseSerializer)
     def anamnesis(self, request, pk=None):
