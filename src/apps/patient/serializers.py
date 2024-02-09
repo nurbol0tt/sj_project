@@ -283,10 +283,6 @@ class NeurologicalRetrieveStatusSerializer(serializers.ModelSerializer):
         source='get_pupils_display', 
         read_only=True
     )
-    meningeal_signs = serializers.CharField(
-        source='get_meningeal_signs_display', 
-        read_only=True
-    )
 
     class Meta:
         model = NeurologicalStatus
@@ -301,6 +297,7 @@ class MentalRetrieveStatusSerializer(serializers.ModelSerializer):
         source='get_view_display', 
         read_only=True
     )
+
     class Meta:
         model = MentalStatus
         fields = (
