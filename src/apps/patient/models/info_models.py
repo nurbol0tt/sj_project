@@ -48,7 +48,7 @@ class AnamnesisDisease(models.Model):
     light_gaps = models.CharField(max_length=25)
     duration_last_binge = models.CharField(max_length=25)
     duration_last_remission = models.CharField(max_length=25)
-    last_treatment = models.CharField(max_length=25)
+    last_treatment = models.CharField(max_length=128)
     last_alcohol_intake = models.CharField(max_length=25)
     dose = models.CharField(max_length=25)
     addition = models.CharField(max_length=125)
@@ -130,12 +130,10 @@ class SomaticStatus(models.Model):
         choices=SKIN_TYPE_STATUS_CHOICES,
     )
     availability = models.CharField(
-        max_length=25,
-        choices=AVAILABILITY_STATUS_CHOICES,
+        max_length=128,
     )
     traces = models.CharField(
-        max_length=25,
-        choices=TRACES_STATUS_CHOICES,
+        max_length=25
     )
     state_conjunctiva = models.CharField(
         max_length=25,
@@ -199,6 +197,7 @@ class NeurologicalStatus(models.Model):
         ('2', 'Мидриаз'),
         ('3', 'Миоз'),
         ('4', 'Анизокория'),
+        ('5', 'D=S')
     )
     MENINGEAL_STATUS_CHOICES = (
         ('1', 'Ригидность затылочных мышц'),
@@ -210,17 +209,16 @@ class NeurologicalStatus(models.Model):
         choices=PUPILS_STATUS_CHOICES,
     )
     photo_reaction = models.CharField(
-        max_length=25,
+        max_length=128,
     )
     meningeal_signs = models.CharField(
-        max_length=25,
-        choices=MENINGEAL_STATUS_CHOICES,
+        max_length=128
     )
     seizures = models.CharField(
-        max_length=25,
+        max_length=128,
     )
     dysarthria = models.CharField(
-        max_length=25
+        max_length=128
     )
 
 
@@ -233,7 +231,7 @@ class MentalStatus(models.Model):
         max_length=25,
         choices=VIEW_STATUS_CHOICES,
     )
-    smell_of_alcohol = models.BooleanField()
+    smell_of_alcohol = models.CharField(max_length=125,)
     behavior = models.CharField(max_length=125,)
     consciousness = models.CharField(max_length=125,)
     orientation = models.CharField(max_length=125,)
