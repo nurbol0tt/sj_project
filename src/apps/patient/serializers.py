@@ -236,10 +236,6 @@ class SomaticRetrieveStatusSerializer(serializers.ModelSerializer):
         source='get_category_display', 
         read_only=True,
     )
-    skin_type = serializers.CharField(
-        source='get_skin_type_display', 
-        read_only=True,
-    )
     availability = serializers.CharField(
         source='get_availability_display', 
         read_only=True,
