@@ -126,8 +126,7 @@ class SomaticStatus(models.Model):
         choices=CATEGORY_STATUS_CHOICES,
     )
     skin_type = models.CharField(
-        max_length=25,
-        choices=SKIN_TYPE_STATUS_CHOICES,
+        max_length=128,
     )
     availability = models.CharField(
         max_length=128,
